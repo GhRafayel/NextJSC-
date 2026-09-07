@@ -1,0 +1,273 @@
+{
+        "Header": {
+            "a": "Arena",
+            "f": "Freunde",
+            "plaseholder": "Spieler",
+            "invite": "Einladen",
+            "si": "Anmelden",
+            "su": "Registrieren"
+        },
+        "HomePage": {
+            "title": "GEBAUT FÜR ECHTZEIT-KAMPF",
+            "choice": "Wähle, wie du spielen möchtest",
+            "motoFirst": "GLEITEN. ZUSCHLAGEN.",
+            "motoSecond": "ÜBERLEBEN.",
+            "description": "Ein Mehrspieler-Schlangen-Schlachtfeld, auf dem vier Schlangen antreten und nur eine herausgleitet. Echtzeit. Plattformübergreifend. Keine Gnade.",
+            "sBtn": "Jetzt spielen",
+            "cards": [
+                {
+                    "title": "Gegen KI",
+                    "description": "Schnelles Einzelspiel. Kein Warten.",
+                    "button": "Match starten",
+                    "wait": "Sofort",
+                    "mode": "AI"
+                },
+                {
+                    "title": "Schnelles Match",
+                    "description": "Online-Matchmaking, ausgeglichen nach Wertung.",
+                    "button": "Match finden",
+                    "wait": "durchschn. Wartezeit ~8s",
+                    "mode": "online"
+                }
+            ]
+        },
+        "Profile": {
+            "language": ["en", "de", "hy", "ru"],
+            "epBtn": "Profil bearbeiten",
+            "sub": "absenden",
+            "preferences": "Einstellungen",
+            "settings": {
+                "lang": "Sprache",
+                "ct": "Farbschema",
+                "da": "Konto löschen",
+                "lo": "Abmelden",
+                "sound": "Ton & Musik",
+                "message": "Die Anfrage konnte nicht abgeschlossen werden",
+                "avatar": "Avatar",
+                "snakeColor": "Schlangenfarbe",
+                "username": {
+                    "label": "Benutzername",
+                    "edit": "Bearbeiten"
+                },
+                "account": {
+                    "yes": "Ja",
+                    "no": "Nein",
+                    "text": "Möchtest du dein Konto wirklich löschen?",
+                    "account": "Konto"
+                },
+                "secure": {
+                    "label1": "Sicherheit",
+                    "label2": "Passwort ändern, 2FA",
+                    "changePassword": "Ändern",
+                    "close": "Schließen",
+                    "newPassword": "Neues Passwort",
+                    "oldPassword": "Altes Passwort"
+                }
+            }
+        },
+        "Arena": {
+            "header": {
+                "match": "Live-Match · Raum",
+                "time": "Zeit",
+                "players": "Spieler",
+                "score": "Deine Punkte",
+                "difficulty": "Schwierigkeit",
+                "copy": "Raum-ID kopieren",
+                "copied": "Kopiert"
+            },
+            "saidBar": {
+                "onlinePlayers": "ONLINE-SPIELER",
+                "online": "online",
+                "invited": "Eingeladen",
+                "position": {
+                    "your": "Deine",
+                    "of": "von",
+                    "position": "Position",
+                    "join": "Beitreten",
+                    "ignore": "Ignorieren"
+                }
+            },
+            "invite": {
+                "title": "Match-Einladung",
+                "subtitle": "hat dich zu einem Match eingeladen"
+            },
+            "board": {
+                "WAITING": "Warten",
+                "PLAYING": "Läuft",
+                "STARTING": "Startet",
+                "FINISHED": "Beendet",
+                "connecting": "Suche nach einem Raum..."
+            },
+            "control": {
+                "move": "Bewegen",
+                "pause": "Pause"
+            },
+            "overlay": {
+                "win": "Du gewinnst!",
+                "over": "Spiel vorbei",
+                "tryAgain": "Erneut versuchen"
+            }
+        },
+        "History": {
+            "you": "du",
+            "won": "Gewonnen",
+            "los": "Verloren",
+            "pts": "Pkt"
+        },
+        "Admin": {
+            "title": "Admin-Bereich",
+            "searchPlaceholder": "Nach Name oder E-Mail suchen",
+            "searching": "Suche läuft...",
+            "search": "Suchen",
+            "noUsersFound": "Keine Benutzer gefunden.",
+            "viewEdit": "Ansehen/Bearbeiten",
+            "loadingUser": "Benutzer wird geladen...",
+            "edit": "Bearbeiten",
+            "errors": {
+                "forbidden": "Verboten",
+                "loadUsersFailed": "Benutzer konnten nicht geladen werden",
+                "loadUserFailed": "Benutzer konnte nicht geladen werden"
+            },
+            "form": {
+                "username": "Benutzername",
+                "email": "E-Mail",
+                "password": "Passwort",
+                "newPassword": "Passwort (leer lassen, um es beizubehalten)",
+                "role": "Rolle",
+                "cannotChangeOwnRole": "Du kannst deine eigene Rolle nicht ändern",
+                "save": "Speichern",
+                "saving": "Speichern...",
+                "cancel": "Abbrechen",
+                "delete": "Löschen",
+                "deleteConfirmText": "Diesen Benutzer endgültig löschen? Dies kann nicht rückgängig gemacht werden.",
+                "yesDelete": "Ja, löschen",
+                "deleting": "Löschen...",
+                "no": "Nein",
+                "errors": {
+                    "forbidden": "Verboten",
+                    "saveFailed": "Änderungen konnten nicht gespeichert werden",
+                    "deleteFailed": "Benutzer konnte nicht gelöscht werden"
+                }
+            }
+        },
+        "contact": {
+            "contact": "Kontakt",
+            "send": "Senden",
+            "title": "Nachricht an die Administration senden",
+            "des": "Schreibe deine Nachricht hier...",
+            "invites": "Ausstehende Einladungen"
+        },
+        "Friends": {
+            "social": "Sozial",
+            "friends": "Freund",
+            "pending": "AUSSTEHEND",
+            "accept": "ANNEHMEN",
+            "reject": "ABLEHNEN",
+            "delete": "LÖSCHEN",
+            "empty": "Noch keine Freunde",
+            "cancel": "Abbrechen"
+        },
+        "Footer": {
+            "rights": "Alle Rechte vorbehalten.",
+            "privacy": "Datenschutzerklärung",
+            "terms": "Nutzungsbedingungen"
+        },
+        "Legal": {
+            "privacyPolicy": {
+                "title": "Datenschutzerklärung",
+                "updated": "Zuletzt aktualisiert: 24. August 2026",
+                "intro": "Snake („das Projekt“, „wir“, „uns“) ist ein Echtzeit-Mehrspielerspiel, das als Bildungsprojekt für den 42-Lehrplan (ft_transcendence) entwickelt wurde. Diese Erklärung beschreibt, welche Daten wir erheben, wenn du die Anwendung nutzt, warum wir sie erheben und welche Möglichkeiten du hast.",
+                "sections": [
+                    {
+                        "heading": "1. Informationen, die wir erheben",
+                        "items": [
+                            { "label": "Kontodaten:", "text": "E-Mail-Adresse, Benutzername und ein gesalzenes & gehashtes Passwort (wenn du dich mit E-Mail/Passwort registrierst)." },
+                            { "label": "OAuth-Daten:", "text": "Wenn du dich mit Google oder GitHub anmeldest, erhalten wir deine Anbieter-Konto-ID und die grundlegenden Profilinformationen (Name, E-Mail, Avatar), die dieser Anbieter mit uns teilt." },
+                            { "label": "Spieldaten:", "text": "Match-Ergebnisse, Punkte, Siege/Niederlagen, Spielräume, denen du beitrittst, und deine Freundesliste." },
+                            { "label": "Einstellungen:", "text": "gewählte Sprache, helles/dunkles Design, Avatar und Schlangenfarbe." },
+                            { "label": "Sitzungsdaten:", "text": "kurzlebige Access- und Refresh-Token, die als HTTP-only-Cookies gespeichert werden und ausschließlich dazu dienen, dich angemeldet zu halten." },
+                            { "label": "Nachrichten, die du uns sendest:", "text": "Inhalte, die über das In-App-Kontaktformular übermittelt werden." }
+                        ]
+                    },
+                    { "heading": "2. Wie wir deine Informationen verwenden", "text": "Wir verwenden die oben genannten Daten, um: dich zu authentifizieren und deine Sitzung sicher zu halten; Matchmaking und Echtzeit-Gameplay über WebSockets zu betreiben; deinen Freunden dein Profil, deine Statistiken, deinen Match-Verlauf und deinen Online-Status anzuzeigen; deine Sprach- und Designeinstellungen zu speichern; Codes zum Zurücksetzen des Passworts per E-Mail zu senden; und auf Nachrichten zu antworten, die über das Kontaktformular gesendet werden." },
+                    { "heading": "3. Cookies & Token", "text": "Wir verwenden zwei HTTP-only-Cookies — einen Access-Token und einen Refresh-Token — um dich über Anfragen hinweg angemeldet zu halten. Diese Cookies werden nicht für Werbung oder seitenübergreifendes Tracking verwendet. Refresh-Token werden serverseitig gespeichert und können jederzeit durch Abmelden widerrufen werden." },
+                    { "heading": "4. Drittanbieterdienste", "text": "Wenn du dich mit Google oder GitHub anmeldest, verarbeitet dieser Anbieter deine Authentifizierung gemäß seiner eigenen Datenschutzerklärung. Wir erhalten nur die minimalen Profilinformationen, die zum Erstellen oder Zuordnen deines Kontos erforderlich sind. Wir verwenden keine Werbe- oder Analyse-Tracker von Drittanbietern." },
+                    { "heading": "5. Weitergabe von Informationen", "text": "Wir verkaufen oder vermieten deine personenbezogenen Daten nicht. Bestimmte Informationen sind für andere Nutzer als Teil der Kernfunktionen der App sichtbar — dein Benutzername, Avatar, Online-Status sowie Match-/Bestenlisten-Ergebnisse sind für Freunde und gegebenenfalls für andere Spieler in einem Spielraum sichtbar." },
+                    { "heading": "6. Datenspeicherung & Löschung", "text": "Wir speichern deine Konto- und Spieldaten so lange, wie dein Konto besteht. Die meisten deiner Daten kannst du selbst in deinen Profileinstellungen aktualisieren. Um die Löschung deines Kontos und der zugehörigen Daten zu beantragen, kontaktiere uns über das In-App-Kontaktformular; wir bearbeiten die Anfrage innerhalb einer angemessenen Frist." },
+                    { "heading": "7. Sicherheit", "text": "Passwörter werden vor der Speicherung gehasht und gesalzen. Die gesamte Kommunikation zwischen deinem Browser und unserem Backend ist mit HTTPS verschlüsselt. Der Zugriff auf administrative Funktionen ist auf Konten mit der Admin-Rolle beschränkt." },
+                    { "heading": "8. Datenschutz von Kindern", "text": "Das Projekt ist ein studentisches Softwareprojekt und richtet sich nicht an Kinder unter 16 Jahren. Wir erheben nicht wissentlich personenbezogene Daten von Kindern unter diesem Alter." },
+                    { "heading": "9. Änderungen dieser Erklärung", "text": "Wir können diese Erklärung im Zuge der Weiterentwicklung des Projekts aktualisieren. Wesentliche Änderungen werden durch Aktualisierung des Datums „Zuletzt aktualisiert“ oben kenntlich gemacht." },
+                    { "heading": "10. Kontakt", "text": "Fragen zu dieser Erklärung oder zu deinen Daten können jederzeit über die Kontakt-Schaltfläche unten rechts in der App gesendet werden, oder siehe unser {link}." }
+                ]
+            },
+            "termsOfService": {
+                "title": "Nutzungsbedingungen",
+                "updated": "Zuletzt aktualisiert: 24. August 2026",
+                "intro": "Diese Bedingungen regeln deine Nutzung von Snake („das Projekt“), einem Echtzeit-Mehrspielerspiel, das als Bildungsprojekt für den 42-Lehrplan (ft_transcendence) entwickelt wurde. Indem du ein Konto erstellst oder die App nutzt, stimmst du diesen Bedingungen zu.",
+                "sections": [
+                    { "heading": "1. Bildungsprojekt", "text": "Das Projekt wird von Studierenden im Rahmen eines Schullehrplans entwickelt. Es wird zu Lern- und Demonstrationszwecken bereitgestellt, nicht als kommerzielles Produkt, und wird „wie besehen“ ohne jegliche Gewährleistung angeboten." },
+                    {
+                        "heading": "2. Dein Konto",
+                        "items": [
+                            { "text": "Du musst korrekte Registrierungsinformationen angeben und deine Zugangsdaten vertraulich behandeln." },
+                            { "text": "Du bist für alle Aktivitäten verantwortlich, die unter deinem Konto stattfinden." },
+                            { "text": "Ein Konto pro Person. Erstelle keine Konten, um dich als jemand anderes auszugeben." },
+                            { "text": "Du kannst dein Konto jederzeit in deinen Profileinstellungen löschen." }
+                        ]
+                    },
+                    {
+                        "heading": "3. Akzeptable Nutzung",
+                        "text": "Bei der Nutzung des Projekts verpflichtest du dich, Folgendes zu unterlassen:",
+                        "items": [
+                            { "text": "Automatisierte Skripte, Bots oder Exploits zu verwenden, um sich in Matches einen unfairen Vorteil zu verschaffen (der integrierte KI-Gegner ist der einzige zugelassene nicht-menschliche Spieler)." },
+                            { "text": "Andere Spieler über Profile, Freundschaftsanfragen oder Nachrichten zu belästigen, zu beschimpfen oder sich als sie auszugeben." },
+                            { "text": "Zu versuchen, die Authentifizierung, Ratenbegrenzungen oder andere Sicherheitskontrollen zu umgehen oder ohne Erlaubnis auf das Konto eines anderen Nutzers zuzugreifen." },
+                            { "text": "Rechtswidrige, anstößige oder rechtsverletzende Inhalte über irgendeinen Teil der App hochzuladen oder einzureichen." }
+                        ]
+                    },
+                    { "heading": "4. Moderation & Durchsetzung", "text": "Konten mit der Administratorrolle können Konten überprüfen, bearbeiten oder entfernen, die gegen diese Bedingungen verstoßen. Wir können den Zugriff auf das Projekt für jedes Konto aussetzen oder beenden, das gegen Abschnitt 3 verstößt." },
+                    { "heading": "5. Inhalte & geistiges Eigentum", "text": "Der Quellcode, das Design und die Assets des Projekts gehören seinen studentischen Autoren und werden hier zur Bildungsbewertung verwendet. Du behältst das Eigentum an allen Inhalten, die du einreichst (z. B. deinem gewählten Benutzernamen oder einer über das Kontaktformular gesendeten Nachricht), und du gewährst uns eine begrenzte Lizenz, diese zu speichern und anzuzeigen, soweit dies für den Betrieb des Projekts erforderlich ist." },
+                    { "heading": "6. Verfügbarkeit", "text": "Als studentisches Projekt kann das Projekt jederzeit ohne Vorankündigung geändert, unterbrochen oder offline genommen werden, auch zur Bewertung oder Wartung. Wir garantieren keine ununterbrochene Verfügbarkeit." },
+                    { "heading": "7. Haftungsbeschränkung", "text": "Soweit nach geltendem Recht zulässig, haften die Autoren des Projekts nicht für indirekte, zufällige oder Folgeschäden, die sich aus deiner Nutzung der App ergeben." },
+                    { "heading": "8. Änderungen dieser Bedingungen", "text": "Wir können diese Bedingungen im Zuge der Weiterentwicklung des Projekts aktualisieren. Die fortgesetzte Nutzung der App nach Veröffentlichung von Änderungen gilt als Annahme der überarbeiteten Bedingungen." },
+                    { "heading": "9. Kontakt", "text": "Fragen zu diesen Bedingungen können über die Kontakt-Schaltfläche unten rechts in der App gesendet werden, oder siehe unser {link}." }
+                ]
+            }
+        },
+        "Auth": {
+            "login": {
+                "title": "Anmelden",
+                "submit": "Anmelden",
+                "error": "Falsche E-Mail oder falsches Passwort",
+                "or": "oder fortfahren mit",
+                "google": "Mit Google fortfahren",
+                "github": "Mit GitHub fortfahren",
+                "forgot": "Passwort vergessen"
+            },
+            "register": {
+                "title": "Registrieren",
+                "submit": "Registrieren",
+                "passwordMismatch": "Falsches Passwort, versuche es erneut"
+            },
+            "reset": {
+                "title": "Passwort zurücksetzen",
+                "submit": "Passwort zurücksetzen",
+                "mismatch": "Passwörter stimmen nicht überein",
+                "error": "Etwas ist schiefgelaufen"
+            },
+            "resetCode": {
+                "title": "Prüfe deine E-Mails",
+                "label": "Zurücksetzungscode",
+                "placeholder": "6-stelligen Code eingeben",
+                "verify": "Code bestätigen",
+                "verifying": "Wird bestätigt...",
+                "error": "Passwort konnte nicht geändert werden"
+            },
+            "fields": {
+                "Username": "Benutzername",
+                "Email": "E-Mail",
+                "Password": "Passwort",
+                "ConfirmPassword": "Passwort bestätigen"
+            }
+        }
+    }

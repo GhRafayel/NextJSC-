@@ -1,0 +1,90 @@
+.formInputDiv {
+    @apply
+    flex
+    justify-between
+    border-b-2
+    border-b-black
+    my-2
+    py-1
+    m-2
+}
+
+.formInputs {
+    @apply
+    bg-transparent
+    outline-none
+    placeholder-black
+    text-xl
+    placeholder:text-xl;
+}
+
+.formImgDiv {
+    @apply
+    flex
+    items-center
+    justify-center
+}
+
+.formBtnSubmit,
+.formBtnLog {
+    @apply  
+    rounded-2xl
+    cursor-grab
+    text-center
+    text-lg
+    font-bold
+    bg-green-500
+    duration-600
+    hover:bg-green-700
+    hover:text-gray-300 
+    /* hover:bg-gray-100 */
+    p-3;
+}
+
+.formBtnSubmit {
+    @apply w-full;
+}
+
+.formBtnLog {
+    @apply py-1 ml-1;
+}
+
+.formBtnGoogle {
+    @apply
+    flex
+    items-center
+    justify-center
+    gap-2
+    rounded-2xl
+    cursor-grab
+    text-lg
+    font-bold
+    transition-all
+    duration-600
+    p-3
+    bg-white
+    text-gray-700
+    border
+    border-gray-300
+    hover:bg-gray-100;
+}
+
+.formBtnGithub {
+    @apply
+    flex
+    items-center
+    justify-center
+    gap-2
+    rounded-2xl
+    cursor-grab
+    text-lg
+    font-bold
+    transition-all
+    duration-600
+    p-3
+    bg-[#181717]
+    text-white
+    border
+    border-[#181717]
+    hover:bg-[#2b2b2b];
+}
