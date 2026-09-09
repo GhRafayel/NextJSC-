@@ -9,12 +9,13 @@ public class User
     public string   Email {get; set;} = "";
     public string   Username {get; set;} = "";
     public string?  Password {get; set;}
-    public string?   Provider {get; set;}
+    public string?  NewPassword {get; set; }
+    public string?  Provider {get; set;}
     public string?  ProviderId {get; set;}
     public string?  Color {get; set;}
     public string   Language {get; set;} = "en";
     public string   Avatar {get; set;} = "default.png";
-    public string?   ResetCode {get; set;}
+    public string?  ResetCode {get; set;}
     public Role     Role {get; set;} = Role.PLAYER;
 
     public bool     IsBot { get; set;} = false;

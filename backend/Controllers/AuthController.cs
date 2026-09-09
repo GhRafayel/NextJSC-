@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Backend.Dtos;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Backend.Controllers;
 
@@ -26,6 +27,7 @@ public class AuthController(AuthService auth) : ApiControllerBase
             return Unauthorized(new { error = "Wrong email or password"});
         return Ok(res);
     }
+    
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] RefreshDto dto)
     {
@@ -33,6 +35,13 @@ public class AuthController(AuthService auth) : ApiControllerBase
         if (res is null)
             return Unauthorized(new { error = "Invalid or expired refresh token"});
         return Ok(res);
+    }
+
+    [HttpPost("reset")]
+    public async Task<IActionResult> Reset([FromBody] ResetPasswordDto dto)
+    {
+        string? email = await auth.Reset(dto);
+        return email is null ? NotFound(new {error = "Email not found"}) : Ok(new { email });
     }
 
     [HttpDelete("logout")]
@@ -55,5 +64,16 @@ public class AuthController(AuthService auth) : ApiControllerBase
             return Unauthorized();
         bool val = await auth.DeleteAccount(id.Value);
         return val ? NoContent() : NotFound();
+    }
+    
+    [HttpPost("resetCode")]
+    public async Task<IActionResult> ResetCode ([FromBody] ResetCodeDto dto)
+    {
+        bool? result = await auth.ResetCode(dto);
+
+        if (result is null || result == false)
+            return BadRequest(new { error = "Code expired or Invalid code" });
+        
+        return Ok(new { dto.Email});
     }
 }

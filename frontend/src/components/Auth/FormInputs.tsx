@@ -3,9 +3,12 @@ import { useState } from "react";
 import Image from "next/image";
 import { FormType } from "@/src/types/UserTypes/UserTypes";
 
-type PropsType = { item: FormType}
+type PropsType = { 
+    item: FormType,
+    placeholder : string;
+}
 
-export default function FormInputs ({item} :  PropsType) {
+export default function FormInputs ({item, placeholder} :  PropsType,) {
 
     const	[formData, setFormData] = useState<FormType>(item);
    
@@ -13,11 +16,17 @@ export default function FormInputs ({item} :  PropsType) {
             <div className="formInputDiv">
 
                 <label htmlFor={formData.id} className="cursor-grab w-full">
-                    <input  required placeholder={formData.bol ? formData.name : ""} autoComplete="true"
-                        type={formData.type} name={formData.name} id={formData.id} value={formData.value} className="formInputs"
-                        onFocus={ () =>  { setFormData({...formData, bol: false} ) }}
-                        onChange={(e) => { setFormData({...formData, value: e.target.value })}}
-                        onBlur= { () =>  { setFormData({...formData, bol: true} ) }}
+                    <input  required 
+                            placeholder={formData.bol ? placeholder : ""} 
+                            autoComplete="true"
+                            type={formData.type} 
+                            name={formData.name} 
+                            id={formData.id} 
+                            value={formData.value}
+                            className="formInputs"
+                            onFocus={ () =>  { setFormData({...formData, bol: false} ) }}
+                            onChange={(e) => { setFormData({...formData, value: e.target.value })}}
+                            onBlur= { () =>  { setFormData({...formData, bol: true} ) }}
                     />
                 </label>
                 <div className="formInputDiv">

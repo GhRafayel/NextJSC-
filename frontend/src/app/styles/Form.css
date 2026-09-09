@@ -15,6 +15,7 @@
     outline-none
     placeholder-black
     text-xl
+    w-full
     placeholder:text-xl;
 }
 

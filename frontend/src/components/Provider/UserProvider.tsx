@@ -23,7 +23,7 @@ export default function UserProvider ({ children,  initialUser, initialTranslati
             try {
                 const res = await fetch("/api/edit?path=/users/" + endpoint).then(r => r.json());
                 if (endpoint === "me")
-                    return setCntUser({...res});
+                    return setCntUser(res);
                 return setLENUAGE({...res});
             }
             catch {

@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Backend.Models;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
@@ -20,8 +18,10 @@ builder.Services.AddCors( options =>
     );
 });
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email"));
 
 var jwt = builder.Configuration.GetSection("Jwt");
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(optins =>
     {
@@ -42,9 +42,12 @@ builder.Services.AddControllers()
     . AddJsonOptions(json => json.JsonSerializerOptions.Converters.
         Add( new System.Text.Json.Serialization.JsonStringEnumConverter()));
 
+
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<EmailService>();
+ 
 builder.Services.AddDbContext<AppDbContext> ( 
     option => option.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
 );
@@ -67,6 +70,5 @@ app.UseCors("frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
 
 app.Run();

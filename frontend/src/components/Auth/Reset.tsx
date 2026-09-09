@@ -8,11 +8,11 @@ import ResetCodePage	from "./ResetCodePage";
 
 export default function Reset() {
 
-	const	resetData = Lib.data.slice(1, 4);
 	const	[text, setText] = useState("");
 	const	[code, setCode] = useState(true);
-	const	[state, setState] = useState({userId: 0, Password: ""});
-	const	{ cntUser } = useAuth();
+	const	[state, setState] = useState("");
+	const	{ cntUser, LENUAGE } = useAuth();
+	const	resetData = Lib.data.slice(1, 4);
 
 	return ( code ?
 		(
@@ -20,23 +20,21 @@ export default function Reset() {
 
 				<div className="w-full max-w-md mx-auto p-6 glass rounded-2xl">
 					<div className="w-full text-center my-3">
-						<h2 className="text-4xl font-bold"> Reset password</h2>
+						<h2 className="text-4xl font-bold"> {LENUAGE.Auth.reset.title}</h2>
 					</div>
 
 					<form onSubmit={ async (e) => { 
 						e.preventDefault();
 						const form = Object.fromEntries(new FormData(e.currentTarget));
 						if (form.Password != form.ConfirmPassword)
-							return alert("Passwords do not match");
-						const data = {...form};
-						delete data.ConfirmPassword;
-						const res = await Lib.postRequest("/api/edit?path=/auth/reset", {...data}).then(strim => strim.json());
-						
-						if (!res.userId) return  setText("something was wrong");
-						setState({userId: res.userId, Password : String(form.Password)});
+							return alert(LENUAGE.Auth.reset.mismatch);
+						setState(String(form.Email));
+						const res = await Lib.postRequest("/api/edit?path=/auth/reset", {...form});
+						if (!res.ok)
+							return  setText(LENUAGE.Auth.reset.error);
 						setCode(false);
 					}}>
-						{resetData.map((item, i) => (<FormInputs key={i} item={item} />))}
+						{resetData.map((item, i) => (<FormInputs key={i} item={item} placeholder={LENUAGE.Auth.fields[item.name as keyof typeof LENUAGE.Auth.fields]}/>))}
 						<div className="m-5 text-center">
 							<div>
 								{text.length > 1 && (
@@ -45,7 +43,7 @@ export default function Reset() {
 									</div>
 								)}
 								<button className="formBtnSubmit" type="submit"> 
-									Reset password
+									{LENUAGE.Auth.reset.submit}
 								</button>
 							</div>
 						</div>

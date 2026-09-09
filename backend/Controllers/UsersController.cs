@@ -19,21 +19,21 @@ public class UsersController(UserService _users) : ApiControllerBase
         if (id is null)
             return Unauthorized();
 
-        User? user = await _users.GetById(id.Value);
+        User? user = await _users.GetUserById(id.Value);
         return user is null ? NotFound() : Ok(UserDto.From(user));
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        List<User> users = await _users.GetALL();
+        List<User> users = await _users.GetAllUsers();
         return Ok(users.Select(UserDto.From));
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOne(int id)
     {
-        User? user = await _users.GetById(id);
+        User? user = await _users.GetUserById(id);
         return user is null ? NotFound() : Ok(UserDto.From(user));
     }
 

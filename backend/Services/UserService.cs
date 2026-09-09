@@ -4,22 +4,9 @@ using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 namespace Backend.Services;
 
-public class UserService(AppDbContext db)
+public class UserService(AppDbContext db) : ApiServiceBase(db)
 {
     private readonly AppDbContext DB = db;
-
-    private async Task<User?> Update(int id, Action<User> apply)
-    {
-        User? user = await GetById(id);
-        if (user is null) return null;
-        apply(user);
-        await DB.SaveChangesAsync();
-        return user;
-    }
-
-    public Task<List<User>> GetALL() => DB.Users.ToListAsync();
-
-    public Task<User?> GetById(int id) => DB.Users.FirstOrDefaultAsync(u => u.Id == id);
 
     public async Task<User?> Create(CreateUsersDto dto)
     {
@@ -39,7 +26,7 @@ public class UserService(AppDbContext db)
 
     public async Task<User?> ValidateCredentials(LoginDto dto)
     {
-        User?  user = await DB.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+        User?  user = await GetUserByEmail(dto.Email);
 
         if ( user is null || user.Password is null)
             return null;
