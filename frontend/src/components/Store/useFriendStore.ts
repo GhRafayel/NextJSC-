@@ -44,7 +44,7 @@ export const useFriendStore = create<FriendStoreType>((set) => ( {
 
     acceptFriend: async (id: number) => {
       try {
-          await Lib.patchRequest(`/api/edit?path=/friends/request/${id}/accept`, {});
+          await Lib.patchRequest(`/api/edit?path=/friends/accept/${id}`, {});
           set((state) => ({
               friends : state.friends
               .map((friend) => friend.requestId === id ? {...friend, status: "ACCEPTED"} : friend)
@@ -55,7 +55,7 @@ export const useFriendStore = create<FriendStoreType>((set) => ( {
     },
     
     rejectFriend: async (id: number) => {
-          await Lib.patchRequest(`/api/edit?path=/friends/request/${id}/reject`, {});
+          await Lib.patchRequest(`/api/edit?path=/friends/reject/${id}`, {});
           set((state) => ({
               friends: state.friends.filter((friend) => friend.requestId !== id)
           }))
@@ -63,11 +63,7 @@ export const useFriendStore = create<FriendStoreType>((set) => ( {
 
     cancelRequest: async (id: number) => {
       try {
-          const res = await fetch(`/api/edit?path=/friends/request`, {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ receiverId: id }),
-          });
+          const res = await fetch(`/api/edit?path=/friends/cancel/${id}`, { method: "DELETE" });
           const ok = await res.json();
           if (!ok) throw new Error("Cancel friend request failed");
           set((state) => ({

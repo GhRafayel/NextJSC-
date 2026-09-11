@@ -1,6 +1,6 @@
 namespace Backend.Models;
 
-public class Session
+public class Session : ITimestamped
 {
     public int       Id                  { get; set; }
     public int       UserId              { get; set; }
@@ -9,5 +9,5 @@ public class Session
     public DateTime  ExpiresAt           { get; set; }
     public DateTime? RevokedAt           { get; set; }    
     public DateTime  CreatedAt           { get; set; } = DateTime.UtcNow;
-
+    public DateTime  UpdatedAt           { get; set; } = DateTime.UtcNow;
 }

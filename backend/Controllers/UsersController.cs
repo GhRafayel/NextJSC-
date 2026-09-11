@@ -10,7 +10,7 @@ namespace Backend.Controllers;
 [Route("api/[controller]")]
 [Authorize]
 
-public class UsersController(UserService _users) : ApiControllerBase
+public class UsersController(UserService _users) : ApiControllerBase()
 {
     [HttpGet("me")]
     public async Task<IActionResult> Me()
@@ -23,19 +23,15 @@ public class UsersController(UserService _users) : ApiControllerBase
         return user is null ? NotFound() : Ok(UserDto.From(user));
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [HttpGet("search/{name}")]
+    public async Task<IActionResult> SearchUser(string name)
     {
-        List<User> users = await _users.GetAllUsers();
-        return Ok(users.Select(UserDto.From));
-    }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetOne(int id)
-    {
-        User? user = await _users.GetUserById(id);
-        return user is null ? NotFound() : Ok(UserDto.From(user));
-    }
+        int? id = GetAuthenticatedUserId();
+        if (id is null)
+            return Unauthorized();
+        List<User>? users = await _users.Search(id.Value, name);
+        return users is null ? NotFound() : Ok(users.Select(UserDto.From));
+    }    
 
     [HttpDelete]
     public async Task<IActionResult> Delete()
@@ -43,7 +39,8 @@ public class UsersController(UserService _users) : ApiControllerBase
         int? id = GetAuthenticatedUserId();
         if (id is null)
             return Unauthorized();
-        bool ok =  await  _users.Delete(id.Value);
+        bool ok = await _users.Delete(id.Value);
+
         return ok ? NoContent() : NotFound();
     }
 

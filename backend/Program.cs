@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
@@ -19,6 +20,8 @@ builder.Services.AddCors( options =>
 });
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email"));
+builder.Services.Configure<GoogleOptions>(builder.Configuration.GetSection("Google"));
+builder.Services.Configure<GithubOptions>(builder.Configuration.GetSection("Github"));
 
 var jwt = builder.Configuration.GetSection("Jwt");
 
@@ -47,6 +50,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<FriendsService>();
+builder.Services.AddHttpClient();
  
 builder.Services.AddDbContext<AppDbContext> ( 
     option => option.UseNpgsql(builder.Configuration.GetConnectionString("Default"))

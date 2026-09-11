@@ -6,40 +6,12 @@ namespace Backend.Services;
 
 public class UserService(AppDbContext db) : ApiServiceBase(db)
 {
-    private readonly AppDbContext DB = db;
-
-    public async Task<User?> Create(CreateUsersDto dto)
+    public async Task<List<User>?> Search (int id, string name)
     {
-        bool token = await DB.Users.AnyAsync(u => u.Email == dto.Email);
-        if (token)
-            return null;
-        User user = new()
-        {
-            Username = dto.Username,
-            Email = dto.Email,
-            Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-        };
-        DB.Users.Add(user);
-        await DB.SaveChangesAsync();
-        return user;
-    }
-
-    public async Task<User?> ValidateCredentials(LoginDto dto)
-    {
-        User?  user = await GetUserByEmail(dto.Email);
-
-        if ( user is null || user.Password is null)
-            return null;
-
-        bool ok = BCrypt.Net.BCrypt.Verify(dto.Password, user.Password);
-        return ok ? user : null;
-    }
-    
-    public async Task<bool> Delete(int id)
-    {
-        int rows = await DB.Users.Where(u => u.Id == id).ExecuteDeleteAsync();
-        return rows > 0;
-    }
+        List<User> users = (await GetAllUsers())
+            .Where(user => user.Id != id && user.Username.Contains(name)).ToList();
+        return users;
+    } 
     
     public async Task<User?> AcceptTerms(int userId)
     {
@@ -74,5 +46,10 @@ public class UserService(AppDbContext db) : ApiServiceBase(db)
     public async Task<Translations?> GetTranslations (string key )
     {
         return await DB.Translations.FirstOrDefaultAsync(t => t.Key == key);
+    }
+    
+    public async Task<bool> Delete(int id)
+    {
+       return await DeleteUser(id);
     }
 }
