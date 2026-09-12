@@ -2,15 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Backend.Dtos;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Options;
-using Backend.Options;
 
 namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/auth")]
-public class AuthController(AuthService auth, IOptions<GoogleOptions> google, IOptions<GithubOptions> github) : ApiControllerBase 
+public class AuthController(AuthService auth) : ApiControllerBase 
 {
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] CreateUsersDto dto)
@@ -30,37 +27,6 @@ public class AuthController(AuthService auth, IOptions<GoogleOptions> google, IO
         return Ok(res);
     }
     
-    [HttpGet("google/callback")]
-    public async Task<IActionResult> GoogleCallback ([FromQuery] string code)
-    {
-        AuthResultDto? result = await auth.GoogleLogin(code);
-        const string Url = "http://localhost:3000/";
-        if (result is null)
-            return Redirect(Url + "server/login");
-        string path = QueryHelpers.AddQueryString(Url + "api/auth",
-        new Dictionary<string, string?>
-        {
-            ["accessToken"] = result.AccessToken,
-            ["refreshToken"] = result.RefreshToken,
-        });
-        return Redirect(path);
-    }
-    
-    [HttpGet("google")]
-    public IActionResult Google()
-    {
-        string url = QueryHelpers.AddQueryString(
-        "https://accounts.google.com/o/oauth2/v2/auth",
-        new Dictionary<string, string?>
-        {
-            ["client_id"] = google.Value.ClientId,
-            ["redirect_uri"] = google.Value.CallbackUrl,
-            ["response_type"] = "code",
-            ["scope"] = "openid email profile",
-        });
-
-        return Redirect(url);
-    }
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody] RefreshDto dto)
     {

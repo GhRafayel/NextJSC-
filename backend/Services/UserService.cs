@@ -4,7 +4,7 @@ using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 namespace Backend.Services;
 
-public class UserService(AppDbContext db) : ApiServiceBase(db)
+public class UserService(AppDbContext db, TokenService token) : ApiServiceBase(db, token)
 {
     public async Task<List<User>?> Search (int id, string name)
     {

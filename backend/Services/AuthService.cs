@@ -2,53 +2,12 @@ using Backend.Dtos;
 using Backend.Models;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Backend.Options;
-using System.Net.Http.Headers;
 
 namespace Backend.Services;
 
-public class AuthService (
-        TokenService tokens,
-        EmailService email,
-        AppDbContext db,
-        HttpClient http,
-        IOptions<GoogleOptions> google
-    ) : ApiServiceBase(db)
+public class AuthService (EmailService email, AppDbContext db, TokenService token) : ApiServiceBase(db, token)
 {
-    private readonly TokenService _tokens = tokens;
     private readonly EmailService _emil = email;
-    private readonly HttpClient _http = http;
-    private readonly GoogleOptions _google = google.Value;
-
-    private async Task<GoogleTokenResponse?> ExchangeGoogleCode(string code)
-    {
-        var form = new Dictionary<string, string>
-        {
-            ["client_id"] = _google.ClientId,
-            ["client_secret"] = _google.ClientSecret,
-            ["code"] = code,
-            ["grant_type"] = "authorization_code",
-            ["redirect_uri"] = _google.CallbackUrl,
-        };
-
-        HttpResponseMessage response = await _http.PostAsync("https://oauth2.googleapis.com/token", new FormUrlEncodedContent(form));
-        if (!response.IsSuccessStatusCode)
-            return null;
-        return await response.Content.ReadFromJsonAsync<GoogleTokenResponse>();
-    }
-    
-    private async Task<GoogleUserInfo?> GetGoogleUser(string accessToken)
-    {
-        using var request = new HttpRequestMessage ( 
-            HttpMethod.Get, "https://www.googleapis.com/oauth2/v3/userinfo" 
-        );
-        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        HttpResponseMessage response = await _http.SendAsync(request);
-        if (!response.IsSuccessStatusCode)
-            return null;
-        return await response.Content.ReadFromJsonAsync<GoogleUserInfo>();
-    }
     
     public async Task<AuthResultDto?> Register(CreateUsersDto dto)
     {
@@ -58,22 +17,6 @@ public class AuthService (
         return await IssueTokens(user);
     }
 
-    public async Task<AuthResultDto?> GoogleLogin (string code)
-    {
-        GoogleTokenResponse? token = await ExchangeGoogleCode(code);
-        Console.WriteLine($"[Google] token null? {token is null}");
-
-        if (token is null)
-            return null;
-        GoogleUserInfo? info = await GetGoogleUser(token.AccessToken);
-        Console.WriteLine($"[Google] info null? {info is null}, email={info?.Email}");
-
-        if (info is null)
-            return null;
-        User user = await Create(info);
-        return await IssueTokens(user);
-    }
-    
     public async Task<AuthResultDto?> Login(LoginDto dto)
     {
         User? user = await ValidateCredentials(dto);
@@ -82,24 +25,6 @@ public class AuthService (
         return await IssueTokens(user);
     } 
 
-    public async Task<AuthResultDto> IssueTokens(User user)
-    {
-        string access = _tokens.CreateAccessToken(user);
-        var (refresh, expiresAt) = _tokens.CreateRefreshToken();
-        var session = new Session
-        {
-            UserId = user.Id,
-            RefreshToken = refresh,
-            ExpiresAt = expiresAt,
-        };
-        DB.Sessions.Add(session);
-        await DB.SaveChangesAsync();
-        return new AuthResultDto
-        {
-            AccessToken = access,
-            RefreshToken = refresh,
-        };
-    }
 
     public async Task<AuthResultDto?> Refresh(RefreshDto dto)
     {

@@ -51,6 +51,7 @@ builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<FriendsService>();
+builder.Services.AddScoped<OAuthService>();
 builder.Services.AddHttpClient();
  
 builder.Services.AddDbContext<AppDbContext> ( 

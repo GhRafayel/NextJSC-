@@ -3,9 +3,10 @@ using Backend.Models;
 using Backend.Dtos;
 using Microsoft.EntityFrameworkCore;
 namespace Backend.Services;
-public abstract class ApiServiceBase(AppDbContext db)
+public abstract class ApiServiceBase(AppDbContext db,  TokenService tokens)
 {
     protected readonly AppDbContext DB = db;
+    private readonly TokenService _tokens = tokens;
     public Task<List<User>> GetAllUsers() => DB.Users.ToListAsync();
     public Task<User?> GetUserById(int id) => DB.Users.FirstOrDefaultAsync(u => u.Id == id);
     public Task<User?> GetUserByEmail(string email) => DB.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -34,18 +35,38 @@ public abstract class ApiServiceBase(AppDbContext db)
         return ok ? user : null;
     }
     
-    protected async Task<User> Create(GoogleUserInfo info)
+    protected async Task<AuthResultDto> IssueTokens(User user)
     {
+        string access = _tokens.CreateAccessToken(user);
+        var (refresh, expiresAt) = _tokens.CreateRefreshToken();
+        var session = new Session
+        {
+            UserId = user.Id,
+            RefreshToken = refresh,
+            ExpiresAt = expiresAt,
+        };
+        DB.Sessions.Add(session);
+        await DB.SaveChangesAsync();
+        return new AuthResultDto
+        {
+            AccessToken = access,
+            RefreshToken = refresh,
+        };
+    }
+    
+    protected async Task<User?> Create(ExternalUserInfo info)
+    {
+        if (info.Email is null) return null;
         User? user =  await GetUserByEmail(info.Email);
         if (user is not null)
             return user;
         user = new User
         {
             Email = info.Email,
-            Username = info.Name,
-            Avatar = info.Picture,
-            Provider = "google",
-            ProviderId = info.Sub,
+            Username = info.Name ?? info.Email.Split('@')[0],
+            Avatar =  "default.png",
+            Provider = info.Provider,
+            ProviderId = info.ProviderUserId,
         };
         return await AddUser(user);
     }
@@ -72,5 +93,4 @@ public abstract class ApiServiceBase(AppDbContext db)
         await DB.SaveChangesAsync();
         return user;
     }
-
 }
