@@ -56,10 +56,10 @@ export default function Contact() {
                             {pendingInvites.map((item, i) => (
                                 <div className="fr-row" key={item.requestId}>
                                     <span className={`fr-avatar fr-av-${i % 4}`}>
-                                        {item.Username.slice(0, 2).toUpperCase()}
+                                        {item.username.slice(0, 2).toUpperCase()}
                                     </span>
                                     <div className="fr-info">
-                                        <span className="fr-name">{item.Username}</span>
+                                        <span className="fr-name">{item.username}</span>
                                         <div className="fr-actions">
                                             <button type="button" className="fr-actionBtn fr-actionAccept" onClick={async () => await FR_STORE.acceptFriend(item.requestId)}>
                                                 {FR_LENG.accept}

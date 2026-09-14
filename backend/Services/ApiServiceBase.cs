@@ -11,6 +11,16 @@ public abstract class ApiServiceBase(AppDbContext db,  TokenService tokens)
     public Task<User?> GetUserById(int id) => DB.Users.FirstOrDefaultAsync(u => u.Id == id);
     public Task<User?> GetUserByEmail(string email) => DB.Users.FirstOrDefaultAsync(u => u.Email == email);
 
+    protected async Task AddFriend (int senderId, int receiverId)
+    {
+        Friends newFriend = new Friends()
+        {
+            SenderId = senderId,
+            ReceiverId = receiverId,
+        };
+        DB.Add(newFriend);
+        await DB.SaveChangesAsync();
+    }
     private async Task<User> AddUser (User user)
     {
         DB.Users.Add(user);

@@ -19,19 +19,23 @@ export async function POST(request: NextRequest) {
         return  NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const res = await fetch( 
-            serverUrl  + path, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify(body),
-        }
-    );
-    const result = await res.json();
+    try {
+        const res = await fetch( 
+                serverUrl  + path, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(body),
+            }
+        );
+        const result = await res.json();
+        return Response.json(result, { status: res.status });
 
-    return Response.json(result, { status: res.status });
+    }catch {
+       return  console.log("error");
+    }    
 }
 
 export async function DELETE (request: NextRequest) {

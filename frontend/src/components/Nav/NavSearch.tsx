@@ -93,7 +93,7 @@ export default function NavSearch ( ) {
                           <div className="truncate min-w-0">{item.Username}</div>
                           <div>
                             <button id={String(item.id)} onClick={async (e) => {
-                                await Lib.postRequest("/api/edit?path=/friends/request", {receiverId : Number(e.currentTarget.id)})
+                                await Lib.postRequest("/api/edit?path=/friends/invite", {receiverId : Number(e.currentTarget.id)})
                                 .then( strim => strim.json());
                                 friendStore();
                             }}

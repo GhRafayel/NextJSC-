@@ -33,5 +33,6 @@ function ensureSocket(): Socket | null {
 }
 
 export function useSocket() {
-    return ensureSocket();
+    //return ensureSocket();
+    return null;
 }

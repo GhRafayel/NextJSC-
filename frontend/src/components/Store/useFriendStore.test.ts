@@ -15,7 +15,7 @@ const initialState = useFriendStore.getState();
 function makeFriend(overrides: Partial<FriendType> = {}): FriendType {
     return {
         id: 1,
-        Username: "alice",
+        username: "alice",
         score: 0,
         requestId: 100,
         status: "PENDING",
