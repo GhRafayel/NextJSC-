@@ -33,7 +33,7 @@ export default function ArenaFriends () {
 
                                 <div className="flex  gap-6 items-center  justify-between ">
                                     <span className={`fr-avatar fr-av-${i % 4}`}>
-                                        {item.Username.slice(0, 2).toUpperCase()}
+                                        {item.username.slice(0, 2).toUpperCase()}
                                         <span className={`fr-dot ${item.isOnline ? 'fr-dot-active' : 'fr-dot-away'}`} />
                                     </span>
                                     <button className="flex items-center gap-2 px-4 py-2 rounded-lg" onClick={() => FR_STORE.handleInvite(item.id)}>

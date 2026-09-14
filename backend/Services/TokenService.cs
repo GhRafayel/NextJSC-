@@ -6,7 +6,6 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Cryptography;
-using Backend.Dtos;
 
 namespace Backend.Services;
 

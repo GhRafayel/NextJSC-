@@ -22,6 +22,7 @@ export const useFriendStore = create<FriendStoreType>((set) => ( {
 
     fetchFriends: async () => {
       try {
+      
           const res = await fetch("/api/edit?path=/friends");
           if (!res.ok) return;
           const data = await res.json();
@@ -44,7 +45,7 @@ export const useFriendStore = create<FriendStoreType>((set) => ( {
 
     acceptFriend: async (id: number) => {
       try {
-          await Lib.patchRequest(`/api/edit?path=/friends/request/${id}/accept`, {});
+          await Lib.patchRequest(`/api/edit?path=/friends/accept`, {receiverId: id});
           set((state) => ({
               friends : state.friends
               .map((friend) => friend.requestId === id ? {...friend, status: "ACCEPTED"} : friend)
@@ -55,7 +56,7 @@ export const useFriendStore = create<FriendStoreType>((set) => ( {
     },
     
     rejectFriend: async (id: number) => {
-          await Lib.patchRequest(`/api/edit?path=/friends/request/${id}/reject`, {});
+          await Lib.patchRequest(`/api/edit?path=/friends/reject`, {receiverId: id});
           set((state) => ({
               friends: state.friends.filter((friend) => friend.requestId !== id)
           }))
@@ -63,13 +64,8 @@ export const useFriendStore = create<FriendStoreType>((set) => ( {
 
     cancelRequest: async (id: number) => {
       try {
-          const res = await fetch(`/api/edit?path=/friends/request`, {
-              method: "DELETE",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ receiverId: id }),
-          });
-          const ok = await res.json();
-          if (!ok) throw new Error("Cancel friend request failed");
+        const res = await Lib.patchRequest(`/api/edit?path=/friends/cancel`, {receiverId: id})
+        if (!res) throw new Error("Cancel friend request failed");
           set((state) => ({
               friends: state.friends.filter((friend) => friend.id !== id),
           }))

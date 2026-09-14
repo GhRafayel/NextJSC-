@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Backend.Dtos;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Backend.Controllers;
 
@@ -22,7 +21,7 @@ public class AuthController(AuthService auth) : ApiControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
     {
-        var res = await auth.Login(dto);
+        AuthResultDto? res = await auth.Login(dto);
         if (res is null)
             return Unauthorized(new { error = "Wrong email or password"});
         return Ok(res);
@@ -76,4 +75,5 @@ public class AuthController(AuthService auth) : ApiControllerBase
         
         return Ok(new { dto.Email});
     }
+
 }

@@ -50,7 +50,9 @@ dotnet ef migrations script <From> <To>     # միայն միջակայքը
 
 ### Բոլ չկիրառված migration-ները կիրառել
 ```bash
+
 dotnet ef database update
+
 ```
 Միանում է բազային, նայում `__EFMigrationsHistory` աղյուսակին, գործարկում
 չկիրառված migration-ների `Up()`-ը (իրական `CREATE TABLE` և այլն)։

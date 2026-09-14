@@ -31,6 +31,8 @@ export async function GET(req: NextRequest) {
 
     const baseUrl = process.env.FRONTEND_URL ?? req.url;
 
+    console.log("[api/auth GET]", { accessToken, refreshToken });
+
     if (!accessToken || !refreshToken)
         return NextResponse.redirect(new URL("/server/login", baseUrl));
 

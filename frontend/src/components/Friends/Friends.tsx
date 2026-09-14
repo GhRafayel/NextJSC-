@@ -36,11 +36,11 @@ export default function Friends() {
                 return (
                   <div className="fr-row" key={i}>
                     <span className={`fr-avatar fr-av-${i % 4}`}>
-                      {item.Username.slice(0, 2).toUpperCase()}
+                      {item.username.slice(0, 2).toUpperCase()}
                       <span className={`fr-dot ${item.isOnline ? 'fr-dot-active' : 'fr-dot-away'}`} />
                     </span>
                     <div className="fr-info">
-                      <span className="fr-name">{item.Username}</span>
+                      <span className="fr-name">{item.username}</span>
 
                       {item.status === 'PENDING' && !!cntUser && item.senderId !== cntUser.id ? (
                         <div className="fr-actions">
@@ -55,7 +55,7 @@ export default function Friends() {
                       ) : item.status === 'PENDING' ? (
                         <div className="fr-actions">
                           <span className="fr-actionBtn"> {FR_LENG.pending} </span>
-                           <button type="button" className="fr-actionBtn fr-actionAccept" onClick={async () => await FR_STORE.cancelRequest(item.id)} >
+                           <button type="button" className="fr-actionBtn fr-actionAccept" onClick={async () => await FR_STORE.cancelRequest(item.requestId)} >
                               {FR_LENG.cancel}
                             </button>
                         </div>
