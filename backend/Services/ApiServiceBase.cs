@@ -11,9 +11,10 @@ public abstract class ApiServiceBase(AppDbContext db,  TokenService tokens)
     public Task<User?> GetUserById(int id) => DB.Users.FirstOrDefaultAsync(u => u.Id == id);
     public Task<User?> GetUserByEmail(string email) => DB.Users.FirstOrDefaultAsync(u => u.Email == email);
 
+
     protected async Task AddFriend (int senderId, int receiverId)
     {
-        Friends newFriend = new Friends()
+        Friends newFriend = new()
         {
             SenderId = senderId,
             ReceiverId = receiverId,
@@ -28,6 +29,10 @@ public abstract class ApiServiceBase(AppDbContext db,  TokenService tokens)
         return user;
     }
     
+    protected async Task<bool> IsOnline()
+    {
+        return true;
+    }
     protected async Task<bool> DeleteUser(int id)
     {
         int rows = await DB.Users.Where(u => u.Id == id).ExecuteDeleteAsync();

@@ -1,12 +1,15 @@
 using Backend.Data;
 using Backend.Options;
 using Backend.Services;
+using StackExchange.Redis;
+using Backend.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 builder.Services.AddOpenApi();
 builder.Services.AddCors( options =>
@@ -22,6 +25,9 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email"));
 builder.Services.Configure<GoogleOptions>(builder.Configuration.GetSection("Google"));
 builder.Services.Configure<GithubOptions>(builder.Configuration.GetSection("Github"));
+builder.Services.AddSingleton<IConnectionMultiplexer>(
+    ConnectionMultiplexer.Connect(builder.Configuration["Redis:ConnectionString"]!)
+);
 
 var jwt = builder.Configuration.GetSection("Jwt");
 
@@ -39,12 +45,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey =  true,
             IssuerSigningKey =          new SymmetricSecurityKey( Encoding.UTF8.GetBytes(jwt["key"]!)),
         };
+        optins.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                if (!string.IsNullOrEmpty(accessToken) && context.HttpContext.Request.Path.StartsWithSegments("/hubs"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddControllers()
     . AddJsonOptions(json => json.JsonSerializerOptions.Converters.
         Add( new System.Text.Json.Serialization.JsonStringEnumConverter()));
-
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TokenService>();
@@ -52,7 +69,11 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<FriendsService>();
 builder.Services.AddScoped<OAuthService>();
+builder.Services.AddScoped<GameStateService>();
+builder.Services.AddScoped<OnlineStateService>();
 builder.Services.AddHttpClient();
+builder.Services.AddSignalR();
+
  
 builder.Services.AddDbContext<AppDbContext> ( 
     option => option.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
@@ -61,14 +82,12 @@ builder.WebHost.UseUrls("http://0.0.0.0:4000");
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+using (var scope = app.Services.CreateScope()) {
+    AppDbContext db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await TranslationsSeeder.SeedAsync(db);
 }
 
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.MapOpenApi();
 }
 
@@ -76,5 +95,6 @@ app.UseCors("frontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<GameHub>("/hubs/game");
 
 app.Run();

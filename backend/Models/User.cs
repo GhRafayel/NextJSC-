@@ -17,7 +17,6 @@ public class User : ITimestamped
     public string?  ResetCode {get; set;}
     public Role     Role {get; set;} = Role.PLAYER;
 
-    public bool     IsBot { get; set;} = false;
     public bool     Theme { get; set; } = true;
     public DateTime? TermsAcceptedAt {get; set;}
     public DateTime? CodeExpire {get; set;}

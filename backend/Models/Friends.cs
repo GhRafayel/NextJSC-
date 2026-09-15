@@ -1,4 +1,7 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Backend.Models;
+
 
 public class Friends : ITimestamped
 {
@@ -7,7 +10,10 @@ public class Friends : ITimestamped
     public User Sender          { get; set; } = null!;
     public int  ReceiverId      { get; set; }
     public User Receiver        { get; set; } = null!;
-    public FriendStatus Status { get; set; } = FriendStatus.PENDING;
+
+    [NotMapped]
+    public bool IsOnline        { get; set; } = false;
+    public FriendStatus Status  { get; set; } = FriendStatus.PENDING;
     public DateTime CreatedAt   { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt   { get; set; } = DateTime.UtcNow;
 }

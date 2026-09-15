@@ -9,15 +9,20 @@ namespace Backend.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class FriendsController(FriendsService Fds): ApiControllerBase
+public class FriendsController(FriendsService Fds, OnlineStateService online): ApiControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetFriends ()
     {
         int? id = GetAuthenticatedUserId();
-        if (id is null)
-            return Unauthorized();
+        if (id is null) return Unauthorized();
         List<Friends> friends = await Fds.GetFriends(id.Value);
+
+        foreach (Friends friend in friends)
+        {
+            int otherUserId = id.Value == friend.SenderId ? friend.ReceiverId : friend.SenderId;
+            friend.IsOnline = await online.IsUserOnline(otherUserId);
+        }
         return Ok(friends.Select(friend => FriendsDto.From(friend, id.Value)).ToList());
     }
 

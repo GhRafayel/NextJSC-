@@ -23,10 +23,11 @@ public class FriendsService(AppDbContext db, TokenService token) : ApiServiceBas
     }
     public async Task<List<Friends>> GetFriends(int senderId)
     {
-        return await DB.Friends.Include(f => f.Sender).Include(f => f.Receiver)
+        List<Friends> friends =  await DB.Friends.Include(f => f.Sender).Include(f => f.Receiver)
             .Where(friend =>
                (friend.ReceiverId == senderId || friend.SenderId == senderId) && friend.Status != FriendStatus.REJECTED
             ).ToListAsync();
+       return friends;
     }
 
     public async Task<bool> DeleteFriend(int senderId, Guid friendId)
@@ -38,8 +39,7 @@ public class FriendsService(AppDbContext db, TokenService token) : ApiServiceBas
     public async Task<Friends?> InviteFriend(int senderId, int receiverId)
     {
         Friends? friends = await ExistsFriend(senderId, receiverId);
-        if (friends is not null)
-            return null;
+        if (friends is not null) return null;
         await AddFriend(senderId, receiverId);
         return await ExistsFriend(senderId, receiverId);
     }
@@ -47,11 +47,7 @@ public class FriendsService(AppDbContext db, TokenService token) : ApiServiceBas
     public async Task<Friends?> AcceptFriend(int senderId, int receiverId)
     {
         Friends? friends = await GetReceiverPendingFriend(senderId, receiverId);
-        if (friends is null)
-            return null;
-
-        Console.WriteLine("****************\n\n");
-
+        if (friends is null) return null;
         friends.Status = FriendStatus.ACCEPTED;
         await DB.SaveChangesAsync();
         return friends;
@@ -60,8 +56,7 @@ public class FriendsService(AppDbContext db, TokenService token) : ApiServiceBas
     public async Task<Friends?> RejectFriend(int senderId, int receiverId)
     {
         Friends? friend = await GetReceiverPendingFriend(senderId, receiverId);
-        if (friend is null)
-            return null;
+        if (friend is null) return null;
         await DeleteFriend(senderId, friend.Id);
         return friend;
     }
@@ -70,8 +65,7 @@ public class FriendsService(AppDbContext db, TokenService token) : ApiServiceBas
     {
         Friends? friend = await DB.Friends.FirstOrDefaultAsync(fr =>
             fr.SenderId == senderId && fr.ReceiverId == receiverId && fr.Status == FriendStatus.PENDING);
-        if (friend is null)
-            return null;
+        if (friend is null) return null;
         return await DeleteFriend(senderId, friend.Id);
     }
 }

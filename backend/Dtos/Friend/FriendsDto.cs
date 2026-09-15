@@ -22,6 +22,7 @@ public class FriendsDto
         Username = currentUserId == f.SenderId ? f.Receiver.Username : f.Sender.Username,
         Score = currentUserId == f.SenderId ? f.Receiver.Score : f.Sender.Score,
         RequestId = currentUserId == f.SenderId ? f.ReceiverId : f.SenderId,
+        IsOnline = f.IsOnline,
     };
 }
 

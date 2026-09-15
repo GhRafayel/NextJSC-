@@ -15,7 +15,6 @@ public class UserDto
     public string   Avatar      { get; set; } = "default.png";
     public Role     Role        { get; set; }
     public bool     Theme       { get; set; } = true;
-    public bool     IsBot       { get; set; }
     public DateTime CreatedAt    { get; set; }
     public DateTime? TermsAcceptedAt {get; set;}
 
@@ -30,7 +29,6 @@ public class UserDto
         Color           = u.Color,
         Avatar          = u.Avatar,
         Role            = u.Role,
-        IsBot           = u.IsBot,
         CreatedAt       = u.CreatedAt,
         TermsAcceptedAt = u.TermsAcceptedAt,
     };
