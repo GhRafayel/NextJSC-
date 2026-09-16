@@ -69,12 +69,14 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<FriendsService>();
 builder.Services.AddScoped<OAuthService>();
-builder.Services.AddScoped<GameStateService>();
-builder.Services.AddScoped<OnlineStateService>();
+
+builder.Services.AddSingleton<GameStateService>();
+builder.Services.AddSingleton<OnlineStateService>();
+builder.Services.AddSingleton<MatchmakingService>();
+builder.Services.AddSingleton<RoomCountdownService>();
+
 builder.Services.AddHttpClient();
 builder.Services.AddSignalR();
-
- 
 builder.Services.AddDbContext<AppDbContext> ( 
     option => option.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
 );

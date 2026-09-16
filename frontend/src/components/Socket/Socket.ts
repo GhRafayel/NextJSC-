@@ -1,6 +1,6 @@
-import { io, Socket} from "socket.io-client";
+import * as signalR from "@microsoft/signalr"
 
-let socket : Socket | null =  null;
+let connection : signalR.HubConnection | null =  null;
 
 
 function isLocalWithoutNginx(): boolean {
@@ -11,28 +11,26 @@ function localSocketUrl(): string {
   return `${window.location.protocol}//${window.location.hostname}:4000`;
 }
 
-function ensureSocket(): Socket | null {
-  if (socket) return socket;
+function ensureConnection(): signalR.HubConnection | null {
+  if (connection) return connection;
   if (typeof window === "undefined") return null;
 
-  const url = process.env.NEXT_PUBLIC_SOCKET_URL
-    || (isLocalWithoutNginx() ? localSocketUrl() : `${window.location.protocol}//${window.location.host}`);
+  const url = process.env.NEXT_PUBLIC_SOCKET_URL || (isLocalWithoutNginx() ? localSocketUrl() : `${window.location.protocol}//${window.location.host}`);
 
-  socket = io(url, {
-        withCredentials: true,
-        autoConnect: false,
-        transports: ['websocket'],
-        auth: (cb) => {
-          fetch("/api/socket-token")
-            .then((res) => res.json())
-            .then((data) => cb({ token: data.accessToken }))
-            .catch(() => cb({ token: null }));
-        },
+    connection = new signalR.HubConnectionBuilder()
+    .withUrl(`${url}/hubs/game`, {
+      accessTokenFactory: async () => {
+        const res = await fetch("/api/socket-token");
+        const data = await res.json();
+        
+        return data.accessToken ?? "";
+      },
     })
-  return socket;
+    .configureLogging(signalR.LogLevel.None)
+    .build();
+  return connection;
 }
 
 export function useSocket() {
-    //return ensureSocket();
-    return null;
+    return ensureConnection();
 }

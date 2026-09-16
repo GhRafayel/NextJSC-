@@ -25,24 +25,24 @@ export default function Arena({ initialMode }: { initialMode: ArenaModeType }) {
         arena.resetArena();
         if (!socket) return;
 
-        socket.emit("get-online-users");
+        socket.send("GetOnlineUsers");
         if (mode === "AI")
-            socket.emit("play-AI", { level });
+            socket.send("PlayAI", { level });
         else {
             const rematchRoomId = arena.rematchRoomId;
             if (rematchRoomId) {
-                socket.emit("rematch", { roomId: rematchRoomId });
+                socket.send("Rematch", { roomId: rematchRoomId });
                 arena.setRematchRoomId(null);
             } else {
                 const pendingRoomId = arena.pendingRoomId;
-                socket.emit("join-room", pendingRoomId ? { roomId: pendingRoomId } : undefined);
+                socket.send("JoinRoom", pendingRoomId ?? undefined);
                 if (pendingRoomId) arena.setPendingRoomId(null);
             }
         }
 
         return () => {
             if (!socket) return;
-            socket.emit("leave-room");
+            socket.send("LeaveRoom");
         };
     }, [mode, level, socket]);
 

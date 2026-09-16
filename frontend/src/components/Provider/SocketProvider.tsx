@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect }                        from "react";
+import * as signalR                         from "@microsoft/signalr";
 import { useAuth }                          from "./UserProvider";
 import { useSocket as getSocket }           from "@/src/components/Socket/Socket";
 import { useInviteStore }                   from "@/src/components/Store/useInviteStore";
@@ -17,19 +18,11 @@ export default function SocketProvider({ children }: { children: React.ReactNode
       if (!cntUser?.id) return;
       const userId = cntUser.id;
 
-      const socket = getSocket();
-      if (!socket) return;
+      const connection = getSocket();
+      if (!connection) return;
 
-      const handleConnection = () => {
-        console.log("✅ Socket connected!", socket.id)
-      };
-      
-      const handleDisconnect = (reason: string) => {
-        console.log("❌ Socket disconnected:", reason)
-      };
-
-      const handleConnectError = (err: Error) => {
-        console.log("⚠️ Socket connect_error:", err.message)
+      const handleDisconnect = (error?: Error) => {
+        console.log("❌ Socket disconnected:", error?.message ?? "")
       };
 
       const handleOnlineUsers = (gameData: OnlineUsersType[]) => {
@@ -51,25 +44,31 @@ export default function SocketProvider({ children }: { children: React.ReactNode
         useInviteStore.getState().addInvite(invite);
     };
 
-      socket.on("connect", handleConnection );
-      socket.on("disconnect", handleDisconnect);
-      socket.on("connect_error", handleConnectError);
-      socket.on("online-users", handleOnlineUsers);
-      socket.on("room-update", handleRoomUpdate);
-      socket.on("room-countdown", handleRoomCountdown);
-      socket.on("room-invite", handleRoomInvite);
+      connection.onclose(handleDisconnect);
 
-      if (!socket.connected)  socket.connect();
+      connection.on("online-users", handleOnlineUsers);
+      connection.on("room-update", handleRoomUpdate);
+      connection.on("room-countdown", handleRoomCountdown);
+      connection.on("room-invite", handleRoomInvite);
+
+      const connect = async () => {
+        if (connection.state === signalR.HubConnectionState.Disconnected) {
+          try {
+            await connection.start();
+            console.log("✅ Socket connected!", connection.connectionId);
+          } catch (err) {
+            console.log("⚠️ Socket connect error:", err);
+          }
+        }
+      };
+      connect();
 
       return () => {
-        socket.off("connect");
-        socket.off("disconnect");
-        socket.off("connect_error", handleConnectError);
-        socket.off("online-users", handleOnlineUsers);
-        socket.off("room-update", handleRoomUpdate);
-        socket.off("room-countdown", handleRoomCountdown);
-        socket.off("room-invite", handleRoomInvite);
-        socket.disconnect();
+        connection.off("online-users", handleOnlineUsers);
+        connection.off("room-update", handleRoomUpdate);
+        connection.off("room-countdown", handleRoomCountdown);
+        connection.off("room-invite", handleRoomInvite);
+        connection.stop();
       };
 
     },[cntUser?.id])

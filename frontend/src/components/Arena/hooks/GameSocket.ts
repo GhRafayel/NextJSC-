@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { Socket } from "socket.io-client";
+import * as signalR from "@microsoft/signalr"
 import { GameType } from "@/src/types/GameTypes/GameTypes";
 import { useGameCanvasStore } from "@/src/components/Store/useGameCanvasStore";
 import { useArenaStore } from "@/src/components/Store/useArenaStore";
 import { playEatSound } from "@/src/components/Arena/utils/sound";
 
 interface UseGameSocketParamsType {
-    socket: Socket | null;
+    socket: signalR.HubConnection | null;
     myUserId: string | number | undefined;
 }
 

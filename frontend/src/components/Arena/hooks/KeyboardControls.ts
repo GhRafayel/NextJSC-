@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Socket } from "socket.io-client";
+import * as signalR from "@microsoft/signalr"
 import { useArenaStore } from "@/src/components/Store/useArenaStore";
 import { useGameCanvasStore } from "@/src/components/Store/useGameCanvasStore";
 
 interface KeyboardControlsParamsType {
-    socket: Socket | null;
+    socket: signalR.HubConnection | null;
     myUserId: string | number | undefined;
 }
 

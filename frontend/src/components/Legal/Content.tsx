@@ -10,7 +10,6 @@ export default function Content ({nameKey} : {nameKey: keyType}) {
         const doc = LENUAGE.Legal[nameKey];
         const FT = LENUAGE.Footer;
 
-        console.log(LINK_TOKEN)
         const withCrossLink = (text: string) => {
 
             const idx = text.indexOf(LINK_TOKEN);
