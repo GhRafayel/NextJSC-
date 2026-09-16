@@ -7,18 +7,38 @@ using Microsoft.IdentityModel.JsonWebTokens;
 namespace Backend.Hubs;
 [Authorize]
 public class GameHub(
-        GameStateService state, 
+        GameStateService state,
         OnlineStateService online,
         MatchmakingService matchmaking,
         RoomCountdownService countdown,
+        GameLoopService gameLoop,
         IHubContext<GameHub> hubContext
 ) : Hub
 {
+    public record ChangeDirectionRequest(string Direction, string RoomId);
+
+    public void ChangeDirection(ChangeDirectionRequest request)
+    {
+        int? userId = GetUserId();
+        if (userId is null) return ;
+        List<HeroState>? heroes = gameLoop.GetHeroes(request.RoomId);
+        HeroState? hero = heroes?.FirstOrDefault(h => h.UserId == userId.Value);
+        if (hero is null) return;
+        hero.Direction = request.Direction;
+    }
+    
     private int? GetUserId()
     {
         string? res = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier)
             ?? Context.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
         return int.TryParse(res, out var id) ? id : null;
+    }
+
+    public void PlaceBomb(string roomId)
+    {
+        int? userId = GetUserId();
+        if (userId is null) return;
+        gameLoop.TryPlaceBomb(roomId, userId.Value, out _);
     }
 
     public async Task JoinRoom(string? roomId = null)
@@ -39,6 +59,7 @@ public class GameHub(
         {
             countdown.CancelCountdown(result.RoomId);
             roomStatus = "PLAYING";
+            await StartMatchAndBroadcast(result.RoomId, result.Map, Clients.Group(result.RoomId));
         }
         else if (result.PlayerCount >= 2)
         {
@@ -50,6 +71,7 @@ public class GameHub(
                     roomId = result.RoomId,
                     roomStatus = "PLAYING",
                 });
+                await StartMatchAndBroadcast(result.RoomId, result.Map, hubContext.Clients.Group(result.RoomId));
             });
         }
         await Clients.Group(result.RoomId).SendAsync("room-update", new
@@ -59,6 +81,25 @@ public class GameHub(
             roomStatus,
             map = result.Map,
         });
+    }
+
+    private async Task StartMatchAndBroadcast(string roomId, int[][] map, IClientProxy clients)
+    {
+        string[] playerIds = await matchmaking.GetRoomPlayers(roomId);
+        List<int> userIds = playerIds.Select(int.Parse).ToList();
+        List<HeroState> heroes = gameLoop.StartMatch(roomId, map, userIds);
+
+        await clients.SendAsync("match-state", new
+        {
+            roomId,
+            map,
+            heroes,
+            bombs = Array.Empty<object>(),
+            status = "playing",
+            winnerId = (int?)null,
+            tick = 0,
+        });
+        gameLoop.StartTickLoop(roomId);
     }
 
     public async Task LeaveRoom ()
