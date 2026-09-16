@@ -74,6 +74,7 @@ builder.Services.AddSingleton<GameStateService>();
 builder.Services.AddSingleton<OnlineStateService>();
 builder.Services.AddSingleton<MatchmakingService>();
 builder.Services.AddSingleton<RoomCountdownService>();
+builder.Services.AddSingleton<GameLoopService>();
 
 builder.Services.AddHttpClient();
 builder.Services.AddSignalR();

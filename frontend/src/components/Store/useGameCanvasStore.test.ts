@@ -1,22 +1,20 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { useGameCanvasStore } from "./useGameCanvasStore";
 import { DEFAULT_STEP } from "@/src/components/Arena/utils/drawGame";
-import { GameType } from "@/src/types/GameTypes/GameTypes";
+import { MatchStateType } from "@/src/types/GameTypes/GameTypes";
 
 const initialState = useGameCanvasStore.getState();
 
-function makeGame(overrides: Partial<GameType> = {}): GameType {
+function makeGame(overrides: Partial<MatchStateType> = {}): MatchStateType {
     return {
         roomId: "room-1",
-        snakes: [],
-        food: [],
-        status: "running",
-        tick: 0,
-        gridWidth: 20,
-        gridHeight: 20,
+        map: [],
+        heroes: [],
+        bombs: [],
+        bonuses: [],
+        status: "playing",
         winnerId: null,
-        botPresent: false,
-        moveIntervalMs: 150,
+        tick: 0,
         ...overrides,
     };
 }

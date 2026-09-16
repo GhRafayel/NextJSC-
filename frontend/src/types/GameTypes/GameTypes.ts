@@ -7,6 +7,7 @@ export interface RoomStateType  {
 	players: number;
 	roomId: string;
 	roomStatus: string;
+	map?: number[][];
 };
 
 export interface RoomCountdownType {
@@ -15,41 +16,46 @@ export interface RoomCountdownType {
 };
 
 export interface PositionType {
-    x: number;
-    y: number;
+    row: number;
+    col: number;
 }
 
-export interface SnakeType {
+export interface HeroType {
 	userId: number;
-	body: PositionType[];
-	direction: DirectionType;
-	newDirection: DirectionType | null;
-	newPosition: PositionType | null;
-	willGrow: boolean;
-	alive: boolean;
-	score: number;
-	color: string;
-	player: 'human' | 'bot';
-}
-
-export interface FoodType {
 	position: PositionType;
-	eaten: boolean;
-	kindIndex: number;
-	value: number;
+	direction: DirectionType;
+	alive: boolean;
+	bombCount: number;
+	maxBombs: number;
+	blastLength: number;
+	color: string;
 }
 
-export interface GameType {
+export interface BombType {
+	id: string;
+	position: PositionType;
+	ownerId: number;
+	blastLength: number;
+	detonatesAt: number;
+}
+
+export type BonusKindType = 'BLAST_LENGTH' | 'BOMB_COUNT';
+
+export interface BonusType {
+	id: string;
+	position: PositionType;
+	kind: BonusKindType;
+}
+
+export interface MatchStateType {
 	roomId: string;
-	snakes: SnakeType[];
-	food: FoodType[];
-	status: 'waiting' | 'running' | 'finished';
-	tick: number;
-	gridWidth: number;
-	gridHeight: number;
+	map: number[][];
+	heroes: HeroType[];
+	bombs: BombType[];
+	bonuses: BonusType[];
+	status: 'playing' | 'finished';
 	winnerId: number | null;
-	botPresent: boolean;
-	moveIntervalMs: number;
+	tick: number;
 }
 
 export interface RoomInviteType {
@@ -61,8 +67,8 @@ export interface RoomInviteType {
 }
 export interface DrawGameParamsType {
     ctx: CanvasRenderingContext2D;
-    curr: GameType;
-    prev: GameType | null;
+    curr: MatchStateType;
+    prev: MatchStateType | null;
     alpha: number;
     step: boolean;
     screen: {

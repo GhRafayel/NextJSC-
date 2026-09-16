@@ -10,9 +10,9 @@
         "HomePage": {
             "title":"BUILT FOR REAL-TIME COMBAT",
             "choice": "Pick how you'd like to pla",
-            "motoFirst":"SLITHER.STRIKE.",
+            "motoFirst":"PLANT.DETONATE.",
             "motoSecond":"SURVIVE.",
-            "description":"A multiplayer snake battleground where four serpents enter, one slithers out. Real-time. Cross-platform. No mercy.",
+            "description":"A multiplayer bomb arena where four heroes enter, one survives the blast. Real-time. Cross-platform. No mercy.",
             "sBtn": "Start Playing",
             "cards": [
                 {
@@ -44,7 +44,7 @@
                 "sound" : "Sound & music",
                 "message" : "The request could not be completed",
                 "avatar" : "Avatar",
-                "snakeColor" : "Snake color",
+                "heroColor" : "Hero color",
                 "username" : {
                     "label" : "Username",
                     "edit" : "Edit"
@@ -177,7 +177,7 @@
             "privacyPolicy": {
                 "title": "Privacy Policy",
                 "updated": "Last updated: August 24, 2026",
-                "intro": "Snake (“the Project”, “we”, “us”) is a real-time multiplayer game built as an educational project for the 42 curriculum (ft_transcendence). This policy explains what data we collect when you use the application, why we collect it, and what choices you have.",
+                "intro": "Detonate (“the Project”, “we”, “us”) is a real-time multiplayer game built as an educational project for the 42 curriculum (ft_transcendence). This policy explains what data we collect when you use the application, why we collect it, and what choices you have.",
                 "sections": [
                     {
                         "heading": "1. Information we collect",
@@ -185,7 +185,7 @@
                             { "label": "Account data:", "text": "email address, username, and a salted & hashed password (if you register with email/password)." },
                             { "label": "OAuth data:", "text": "if you sign in with Google or GitHub, we receive your provider account ID and the basic profile information (name, email, avatar) that provider shares with us." },
                             { "label": "Gameplay data:", "text": "match results, scores, wins/losses, game rooms you join, and your friends list." },
-                            { "label": "Preferences:", "text": "chosen language, light/dark theme, avatar, and snake color." },
+                            { "label": "Preferences:", "text": "chosen language, light/dark theme, avatar, and hero color." },
                             { "label": "Session data:", "text": "short-lived access and refresh tokens stored as HTTP-only cookies, used solely to keep you signed in." },
                             { "label": "Messages you send us:", "text": "content submitted through the in-app Contact form." }
                         ]
@@ -204,7 +204,7 @@
             "termsOfService": {
                 "title": "Terms of Service",
                 "updated": "Last updated: August 24, 2026",
-                "intro": "These Terms govern your use of Snake (“the Project”), a real-time multiplayer game built as an educational project for the 42 curriculum (ft_transcendence). By creating an account or using the app, you agree to these Terms.",
+                "intro": "These Terms govern your use of Detonate (“the Project”), a real-time multiplayer game built as an educational project for the 42 curriculum (ft_transcendence). By creating an account or using the app, you agree to these Terms.",
                 "sections": [
                     { "heading": "1. Educational project", "text": "The Project is developed by students as part of a school curriculum. It is provided for learning and demonstration purposes, not as a commercial product, and is offered “as is” without warranty of any kind." },
                     {

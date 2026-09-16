@@ -65,7 +65,7 @@ export const useArenaStore = create<ArenaStoreType>((set, get) => ({
         const roomId = get().roomState?.roomId;
         const socket = getSocket();
         if (!roomId || !socket) return;
-        socket.emit('room-invite', { roomId, toUserId });
+        socket.send('RoomInvite', { roomId, toUserId });
     },
 
     resetArena: () =>

@@ -81,7 +81,7 @@ body {
 
 @layer components {
   .bg {
-    @apply relative bg-center bg-no-repeat bg-cover bg-[url('/backgroundSnake.png')];
+    @apply relative bg-center bg-no-repeat bg-cover bg-[url('/Detonate.jpeg')];
   }
 }
 

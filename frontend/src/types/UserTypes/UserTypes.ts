@@ -2,7 +2,7 @@ import { LanguageType, TranslationType } from "../StoreTypes/StoreTypes";
 
 export type RoleType = "ADMIN" | "PLAYER" | "BOT";
 
-export type MusicNameType = "game_sfx_on" | "snake_music_on";
+export type MusicNameType = "game_sfx_on" | "detonate_music_on";
 
 export interface AuthType {
     accessToken: string, refreshToken: string

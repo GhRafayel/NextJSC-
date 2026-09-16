@@ -68,24 +68,24 @@ describe("useArenaStore", () => {
     });
 
     describe("inviteFriend", () => {
-        it("emits a room-invite event with the current roomId when a socket and room are present", () => {
-            const emit = vi.fn();
-            vi.mocked(useSocket).mockReturnValue({ emit } as never);
+        it("sends a RoomInvite event with the current roomId when a socket and room are present", () => {
+            const send = vi.fn();
+            vi.mocked(useSocket).mockReturnValue({ send } as never);
             useArenaStore.setState({ roomState: { players: 2, roomId: "room-42", roomStatus: "PLAYING" } });
 
             useArenaStore.getState().inviteFriend(7);
 
-            expect(emit).toHaveBeenCalledWith("room-invite", { roomId: "room-42", toUserId: 7 });
+            expect(send).toHaveBeenCalledWith("RoomInvite", { roomId: "room-42", toUserId: 7 });
         });
 
         it("does nothing when there is no active room", () => {
-            const emit = vi.fn();
-            vi.mocked(useSocket).mockReturnValue({ emit } as never);
+            const send = vi.fn();
+            vi.mocked(useSocket).mockReturnValue({ send } as never);
             useArenaStore.setState({ roomState: undefined });
 
             useArenaStore.getState().inviteFriend(7);
 
-            expect(emit).not.toHaveBeenCalled();
+            expect(send).not.toHaveBeenCalled();
         });
 
         it("does nothing when the socket is unavailable", () => {

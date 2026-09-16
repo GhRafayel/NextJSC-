@@ -20,7 +20,7 @@ export default function PrivacyPolicy({ embedded = false }: { embedded?: boolean
 
         <div className={`legal-page ${dark ? "bg text-white" : "legal-light bg-gray-200 text-black"}`}>
             <div className="legal-shell">
-                <Link href="/" className="legal-back">&larr; Back to Snake</Link>
+                <Link href="/" className="legal-back">&larr; Back to Detonate</Link>
 
                 <div className="legal-card">
                     <div className="legal-cardBody">

@@ -1,4 +1,3 @@
-import { PositionType } from "@/src/types/GameTypes/GameTypes";
 import { CELL } from "./drawGame";
 
 let gridCache: { key: string; canvas: HTMLCanvasElement; } | null = null;
@@ -26,23 +25,6 @@ export function getGridCanvas( worldWidth: number, worldHeight: number ): HTMLCa
     return canvas;
 };
 
-export function fixCorners (tailSeg: PositionType, seg: PositionType) {
-     const corners: [number, number, number, number] = [7, 7, 7, 7];
-    if (tailSeg.x < seg.x) { 
-        corners[0] = 0; corners[3] = 0; 
-    }
-    else if (tailSeg.x > seg.x) { 
-        corners[1] = 0; corners[2] = 0; 
-    }
-    if (tailSeg.y < seg.y) { 
-        corners[0] = 0; corners[1] = 0; 
-    }
-    else if (tailSeg.y > seg.y) { 
-        corners[2] = 0; corners[3] = 0; 
-    }
-    return corners;
-}
-
 export function getGridCanvasLoop(gctx: CanvasRenderingContext2D, world : number) {
     for (let x = 0; x <= world; x += CELL) {
             gctx.beginPath();
@@ -59,6 +41,18 @@ export function getGridCanvasDoublLoop (gctx: CanvasRenderingContext2D, worldWid
             gctx.fillRect( x + 1, y + 1, CELL - 2, CELL - 2 );
             gctx.fillStyle = "#292f34";
             gctx.fillRect( x + 1, y + 1, 1, 1 );
+        }
+    }
+}
+
+export function drawWalls(ctx: CanvasRenderingContext2D, map: number[][]) {
+    for (let row = 0; row < map.length; row++) {
+        for (let col = 0; col < map[row].length; col++) {
+            if (map[row][col] !== 1) continue;
+            ctx.fillStyle = "#4a4a4a";
+            ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+            ctx.fillStyle = "rgba(255,255,255,0.06)";
+            ctx.fillRect(col * CELL, row * CELL, CELL, 2);
         }
     }
 }

@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { GameType, GameStateType } from "@/src/types/GameTypes/GameTypes";
+import { MatchStateType, GameStateType } from "@/src/types/GameTypes/GameTypes";
 import { DEFAULT_STEP } from '@/src/components/Arena/utils/drawGame';
 
 interface GameCanvasStoreType {
-    prevGame: GameType | null;
-    currGame: GameType | null;
+    prevGame: MatchStateType | null;
+    currGame: MatchStateType | null;
     stateTime: number;
     alpha: number;
     step: boolean;
@@ -12,7 +12,7 @@ interface GameCanvasStoreType {
     screen: { width: number; height: number };
     internalGameState: GameStateType;
 
-    setGames: (curr: GameType) => void;
+    setGames: (curr: MatchStateType) => void;
     setStateTime: (time: number) => void;
     setAlpha: (alpha: number) => void;
     toggleStep: () => void;

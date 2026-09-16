@@ -4,7 +4,7 @@ import { MusicNameType, MusicType } from '@/src/types/UserTypes/UserTypes';
 interface MusicStoreType {
     Musics: {
         game_sfx_on: MusicType;
-        snake_music_on: MusicType;
+        detonate_music_on: MusicType;
     };
     hydrate: (name: MusicNameType) => void;
     toggleMusic: (name: MusicNameType) => void;
@@ -33,11 +33,11 @@ export const useMusicStore = create<MusicStoreType>((set) => ({
             keyVolume: "game_sfx_volume",
             src: "/audio/gameMusic.mp3",
         },
-        snake_music_on: {
+        detonate_music_on: {
             isMusicOn: true,
             volume: 0.5,
-            key: "snake_music_on",
-            keyVolume: "snake_music_volume",
+            key: "detonate_music_on",
+            keyVolume: "detonate_music_volume",
             src: "/audio/gameMusic.mp3",
         },
     },

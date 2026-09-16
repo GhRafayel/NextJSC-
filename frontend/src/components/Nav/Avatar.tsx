@@ -15,7 +15,7 @@ export default function Avatar() {
         <span className="truncate text-sm text-gray-100 max-sm:hidden">
             {cntUser?.Username}
         </span>
-        <Image alt="Avatar" width={26} height={26} className="w-6.5 h-6.5 shrink-0 rounded-full bg-[#0095ff] text-(--color-info-text) flex items-center justify-center text-[12px] font-medium cursor-grab object-cover" src={`/avatar/${cntUser?.avatar || 'default.png'}`} />
+        <Image alt="Avatar" width={26} height={26} className="w-6.5 h-6.5 shrink-0 rounded-full bg-[#0095ff] text-(--color-info-text) flex items-center justify-center text-[12px] font-medium cursor-grab object-cover" src={`/avatar/${cntUser?.avatar || 'default.svg'}`} />
     </div>
 )
 }

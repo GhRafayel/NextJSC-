@@ -10,9 +10,9 @@
         "HomePage": {
             "title": "GEBAUT FÜR ECHTZEIT-KAMPF",
             "choice": "Wähle, wie du spielen möchtest",
-            "motoFirst": "GLEITEN. ZUSCHLAGEN.",
+            "motoFirst": "LEGEN. ZÜNDEN.",
             "motoSecond": "ÜBERLEBEN.",
-            "description": "Ein Mehrspieler-Schlangen-Schlachtfeld, auf dem vier Schlangen antreten und nur eine herausgleitet. Echtzeit. Plattformübergreifend. Keine Gnade.",
+            "description": "Eine Mehrspieler-Bomben-Arena, in der vier Helden antreten und nur einer die Explosion überlebt. Echtzeit. Plattformübergreifend. Keine Gnade.",
             "sBtn": "Jetzt spielen",
             "cards": [
                 {
@@ -44,7 +44,7 @@
                 "sound": "Ton & Musik",
                 "message": "Die Anfrage konnte nicht abgeschlossen werden",
                 "avatar": "Avatar",
-                "snakeColor": "Schlangenfarbe",
+                "heroColor": "Heldenfarbe",
                 "username": {
                     "label": "Benutzername",
                     "edit": "Bearbeiten"
@@ -176,7 +176,7 @@
             "privacyPolicy": {
                 "title": "Datenschutzerklärung",
                 "updated": "Zuletzt aktualisiert: 24. August 2026",
-                "intro": "Snake („das Projekt“, „wir“, „uns“) ist ein Echtzeit-Mehrspielerspiel, das als Bildungsprojekt für den 42-Lehrplan (ft_transcendence) entwickelt wurde. Diese Erklärung beschreibt, welche Daten wir erheben, wenn du die Anwendung nutzt, warum wir sie erheben und welche Möglichkeiten du hast.",
+                "intro": "Detonate („das Projekt“, „wir“, „uns“) ist ein Echtzeit-Mehrspielerspiel, das als Bildungsprojekt für den 42-Lehrplan (ft_transcendence) entwickelt wurde. Diese Erklärung beschreibt, welche Daten wir erheben, wenn du die Anwendung nutzt, warum wir sie erheben und welche Möglichkeiten du hast.",
                 "sections": [
                     {
                         "heading": "1. Informationen, die wir erheben",
@@ -184,7 +184,7 @@
                             { "label": "Kontodaten:", "text": "E-Mail-Adresse, Benutzername und ein gesalzenes & gehashtes Passwort (wenn du dich mit E-Mail/Passwort registrierst)." },
                             { "label": "OAuth-Daten:", "text": "Wenn du dich mit Google oder GitHub anmeldest, erhalten wir deine Anbieter-Konto-ID und die grundlegenden Profilinformationen (Name, E-Mail, Avatar), die dieser Anbieter mit uns teilt." },
                             { "label": "Spieldaten:", "text": "Match-Ergebnisse, Punkte, Siege/Niederlagen, Spielräume, denen du beitrittst, und deine Freundesliste." },
-                            { "label": "Einstellungen:", "text": "gewählte Sprache, helles/dunkles Design, Avatar und Schlangenfarbe." },
+                            { "label": "Einstellungen:", "text": "gewählte Sprache, helles/dunkles Design, Avatar und Heldenfarbe." },
                             { "label": "Sitzungsdaten:", "text": "kurzlebige Access- und Refresh-Token, die als HTTP-only-Cookies gespeichert werden und ausschließlich dazu dienen, dich angemeldet zu halten." },
                             { "label": "Nachrichten, die du uns sendest:", "text": "Inhalte, die über das In-App-Kontaktformular übermittelt werden." }
                         ]
@@ -203,7 +203,7 @@
             "termsOfService": {
                 "title": "Nutzungsbedingungen",
                 "updated": "Zuletzt aktualisiert: 24. August 2026",
-                "intro": "Diese Bedingungen regeln deine Nutzung von Snake („das Projekt“), einem Echtzeit-Mehrspielerspiel, das als Bildungsprojekt für den 42-Lehrplan (ft_transcendence) entwickelt wurde. Indem du ein Konto erstellst oder die App nutzt, stimmst du diesen Bedingungen zu.",
+                "intro": "Diese Bedingungen regeln deine Nutzung von Detonate („das Projekt“), einem Echtzeit-Mehrspielerspiel, das als Bildungsprojekt für den 42-Lehrplan (ft_transcendence) entwickelt wurde. Indem du ein Konto erstellst oder die App nutzt, stimmst du diesen Bedingungen zu.",
                 "sections": [
                     { "heading": "1. Bildungsprojekt", "text": "Das Projekt wird von Studierenden im Rahmen eines Schullehrplans entwickelt. Es wird zu Lern- und Demonstrationszwecken bereitgestellt, nicht als kommerzielles Produkt, und wird „wie besehen“ ohne jegliche Gewährleistung angeboten." },
                     {

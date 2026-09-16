@@ -37,7 +37,7 @@ export default function LegalModal() {
             <div className={`legal-modalBox ${dark ? "" : "legal-light"}`}>
                 <div className="legal-modalHeader">
                     <h2 className="legal-modalTitle">Before you play</h2>
-                    <p className="legal-modalSubtitle">Please read and agree to keep playing Snake.</p>
+                    <p className="legal-modalSubtitle">Please read and agree to keep playing Detonate.</p>
                 </div>
 
                 <div className="legal-modalScroll no-scrollbar">

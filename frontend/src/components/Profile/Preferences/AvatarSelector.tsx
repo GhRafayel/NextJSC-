@@ -10,7 +10,7 @@ export default function AvatarSelector() {
   useEffect(() => {
     fetch('/api/avatars')
       .then((res) => res.json())
-      .then((data: string[]) => setAvatars(data.filter((png) => png !== "default.png")))
+      .then((data: string[]) => setAvatars(data.filter((png) => png !== "default.svg")))
       .catch(() => setAvatars([]));
   }, []);
 

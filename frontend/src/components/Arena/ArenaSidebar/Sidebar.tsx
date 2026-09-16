@@ -5,7 +5,6 @@ import { useArenaStore }                       from "@/src/components/Store/useA
 import { useUserStore }                        from "@/src/components/Store/useUserStore";
 import { useGameCanvasStore }                  from "@/src/components/Store/useGameCanvasStore";
 import { useAuth }                          from "@/src/components/Provider/UserProvider";
-import { getLeaderSnake, getRankedSnakes }  from "../utils/leaderboard";
 
 import VolumeControl                        from "@/src/components/Music/VolumeControl";
 import ArenaFriends                         from "@/src/components/Friends/ArenaFriends";
@@ -20,9 +19,7 @@ export default function Sidebar() {
     const {onlineUsers} = useUserStore();
     const {cntUser, LENUAGE} = useAuth();
     const HD_LENG = LENUAGE.Header;
-    const snakes = gameData?.snakes ?? [];
-    const leader = getLeaderSnake(snakes);
-    const ranked = getRankedSnakes(snakes);
+    const heroes = gameData?.heroes ?? [];
     const nameFor = (userId: number) =>
         onlineUsers.find((u) => u.id === userId)?.Username ?? `${HD_LENG.plaseholder} ${userId}`;
 
@@ -51,24 +48,11 @@ export default function Sidebar() {
                 {mode === "online" && <ArenaFriends />}
 
                 <div className="p-4 flex flex-col gap-3 ">
-                    {leader && (
-                        <div className="flex items-center gap-2 rounded-lg bg-yellow-500/10 px-3 py-2 text-sm font-semibold text-yellow-500">
-                            <span>👑</span>
-                            <span
-                                className="h-2.5 w-2.5 rounded-full"
-                                style={{ backgroundColor: leader.color }}
-                            />
-                            <span className="truncate">{nameFor(leader.userId)}</span>
-                            <span className="ml-auto tabular-nums">{leader.score}</span>
-                        </div>
-                    )}
-
                     <ul className="flex flex-col gap-1.5">
-                        {ranked.map((snake) => (
-                            <li key={snake.userId} className={`flex items-center gap-2 text-sm ${snake.alive ? "" : "opacity-40 line-through"}`} >
-                                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: snake.color }} />
-                                <span className="truncate">{nameFor(snake.userId)}</span>
-                                <span className="ml-auto tabular-nums">{snake.score}</span>
+                        {heroes.map((hero) => (
+                            <li key={hero.userId} className={`flex items-center gap-2 text-sm ${hero.alive ? "" : "opacity-40 line-through"}`} >
+                                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: hero.color }} />
+                                <span className="truncate">{nameFor(hero.userId)}</span>
                             </li>
                         ))}
                     </ul>

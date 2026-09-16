@@ -66,7 +66,7 @@ export interface TranslationType {
 				message: string;
 				sound: string;
 				avatar: string;
-				snakeColor: string;
+				heroColor: string;
 				username: { 
             label: string;
             edit: string;

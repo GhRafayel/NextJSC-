@@ -17,11 +17,11 @@ describe("useMusicStore", () => {
             key: "game_sfx_on",
             keyVolume: "game_sfx_volume",
         });
-        expect(Musics.snake_music_on).toMatchObject({
+        expect(Musics.detonate_music_on).toMatchObject({
             isMusicOn: true,
             volume: 0.5,
-            key: "snake_music_on",
-            keyVolume: "snake_music_volume",
+            key: "detonate_music_on",
+            keyVolume: "detonate_music_volume",
         });
     });
 
@@ -31,12 +31,12 @@ describe("useMusicStore", () => {
 
             const { Musics } = useMusicStore.getState();
             expect(Musics.game_sfx_on.isMusicOn).toBe(false);
-            expect(Musics.snake_music_on.isMusicOn).toBe(true);
+            expect(Musics.detonate_music_on.isMusicOn).toBe(true);
         });
 
         it("persists the new value to localStorage under the channel's key", () => {
-            useMusicStore.getState().toggleMusic("snake_music_on");
-            expect(window.localStorage.getItem("snake_music_on")).toBe("false");
+            useMusicStore.getState().toggleMusic("detonate_music_on");
+            expect(window.localStorage.getItem("detonate_music_on")).toBe("false");
         });
     });
 
@@ -60,15 +60,15 @@ describe("useMusicStore", () => {
         });
 
         it("clamps values above 1 down to 1", () => {
-            useMusicStore.getState().setVolume(5, "snake_music_on");
-            expect(useMusicStore.getState().Musics.snake_music_on.volume).toBe(1);
-            expect(window.localStorage.getItem("snake_music_volume")).toBe("1");
+            useMusicStore.getState().setVolume(5, "detonate_music_on");
+            expect(useMusicStore.getState().Musics.detonate_music_on.volume).toBe(1);
+            expect(window.localStorage.getItem("detonate_music_volume")).toBe("1");
         });
 
         it("clamps values below 0 up to 0", () => {
-            useMusicStore.getState().setVolume(-2, "snake_music_on");
-            expect(useMusicStore.getState().Musics.snake_music_on.volume).toBe(0);
-            expect(window.localStorage.getItem("snake_music_volume")).toBe("0");
+            useMusicStore.getState().setVolume(-2, "detonate_music_on");
+            expect(useMusicStore.getState().Musics.detonate_music_on.volume).toBe(0);
+            expect(window.localStorage.getItem("detonate_music_volume")).toBe("0");
         });
     });
 
@@ -97,8 +97,8 @@ describe("useMusicStore", () => {
         });
 
         it("falls back to volume 0.5 when nothing is stored", () => {
-            useMusicStore.getState().hydrate("snake_music_on");
-            expect(useMusicStore.getState().Musics.snake_music_on.volume).toBe(0.5);
+            useMusicStore.getState().hydrate("detonate_music_on");
+            expect(useMusicStore.getState().Musics.detonate_music_on.volume).toBe(0.5);
         });
     });
 });

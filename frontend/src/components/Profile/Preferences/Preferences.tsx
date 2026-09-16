@@ -4,7 +4,7 @@ import LanguageSelector from './LanguageSelector';
 import AvatarSelector from './AvatarSelector';
 import ThemeToggle from './ThemeToggle';
 import VolumeControl from '../../Music/VolumeControl';
-import SnakeColorSelector from './SnakeColorSelector';
+import HeroColorSelector from './HeroColorSelector';
 
 export default function Preferences () {
     const { cntUser, LENUAGE } = useAuth();
@@ -35,7 +35,7 @@ export default function Preferences () {
                     <span className="pf-iconWrap"><Music2 size={16} /></span>
                     {PF_LENG.settings.sound}
                 </div>
-                <VolumeControl musicName='snake_music_on'/>
+                <VolumeControl musicName='detonate_music_on'/>
             </div>
 
             <div className="pf-row pf-rowStack">
@@ -49,7 +49,7 @@ export default function Preferences () {
                     <AvatarSelector />
                 </div>
             </div>
-            <SnakeColorSelector />
+            <HeroColorSelector />
         </div>
     )
 }

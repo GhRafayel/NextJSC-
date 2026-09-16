@@ -18,7 +18,7 @@ export default function Navbar() {
           ( <Link href="/" className="nav-logoMark" >  </Link>) 
         }
   
-        <Link href="/" className={cntUser?.theme ?? true ? "text-white" : "text-black"}>Snake</Link>
+        <Link href="/" className={cntUser?.theme ?? true ? "text-white" : "text-black"}>Detonate</Link>
 
       </div>
       

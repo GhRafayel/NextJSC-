@@ -1,86 +1,70 @@
-
-import { GameType, SnakeType, DrawGameParamsType } from "@/src/types/GameTypes/GameTypes";
-import { getLeaderSnake } from "./leaderboard";
-import { getTongueExtend, drawSnakeTongue, drawCrown, helperForEach} from "./DrawGameHelper";
-import { getGridCanvas } from "./DrawCanvasHelper";
-import { drawSnakeHelper, drawSnakeHeadEyes} from "./DrawSnakeHelper";
+import { HeroType, DrawGameParamsType } from "@/src/types/GameTypes/GameTypes";
+import { drawHeroFace, drawBombs, drawBonuses } from "./DrawGameHelper";
+import { drawWalls } from "./DrawCanvasHelper";
+import { lerp } from "./canvas";
 
 export const DEFAULT_STEP = 150 / 1000;
-export const CELL = 20;
-export const SNAKE_SCALE = 1.3;
+export const CELL = 32;
+export const HERO_SCALE = 1.15;
 export const WORLD_MARGIN = CELL / 2;
 
-// Draw snakes
-function drawSnake (ctx:CanvasRenderingContext2D , snakes: SnakeType[], prev: GameType | null,  alpha: number, step: boolean) {
+function drawHeroes(ctx: CanvasRenderingContext2D, heroes: HeroType[], prev: HeroType[] | undefined, alpha: number) {
+    for (const hero of heroes) {
+        if (!hero.alive) continue;
 
-    const crownUserId = getLeaderSnake(snakes)?.userId ?? null;
-
-    for (const snake of snakes) {
-        if (snake.alive === false) continue;
-        if (!snake.body || snake.body.length === 0) continue;
-
-        const prevSnake = prev?.snakes.find( (s : SnakeType) => String(s.userId) === String(snake.userId));
-        const headSeg = snake.body[0];
-        const prevHeadSeg = prevSnake?.body[0] ?? headSeg;
-
-        if (prevHeadSeg.x < headSeg.x) {
-            snake.direction = "RIGHT";
-        } else if (prevHeadSeg.x > headSeg.x) {
-            snake.direction = "LEFT";
-        } else if (prevHeadSeg.y < headSeg.y) {
-            snake.direction = "DOWN";
-        } else if (prevHeadSeg.y > headSeg.y) {
-            snake.direction = "UP";
-        }
+        const prevHero = prev?.find((h) => String(h.userId) === String(hero.userId));
+        const renderX = lerp(prevHero?.position.col ?? hero.position.col, hero.position.col, alpha) * CELL;
+        const renderY = lerp(prevHero?.position.row ?? hero.position.row, hero.position.row, alpha) * CELL;
 
         ctx.save();
-        const head = drawSnakeHelper(ctx, snake, prevSnake, alpha, step);
-        ctx.restore();
-        if (!head) continue;
-        const { headRenderX, headRenderY } = head;
-        ctx.save();
-        ctx.translate( (headRenderX + CELL / 2), (headRenderY + CELL / 2));
-        ctx.scale( SNAKE_SCALE, SNAKE_SCALE );
-        ctx.translate( -(headRenderX + CELL / 2), -(headRenderY + CELL / 2));
+        ctx.translate(renderX + CELL / 2, renderY + CELL / 2);
+        ctx.scale(HERO_SCALE, HERO_SCALE);
+        ctx.translate(-(renderX + CELL / 2), -(renderY + CELL / 2));
 
-        const tongueExtend = getTongueExtend(snake.userId, performance.now());
-        drawSnakeTongue(ctx, headRenderX, headRenderY, snake.direction, tongueExtend);
-        drawSnakeHeadEyes(ctx, headRenderX, headRenderY, snake.direction);
-        if ( String(snake.userId) === String(crownUserId)) {
-            drawCrown( ctx, headRenderX, headRenderY );
-        }
+        const gradient = ctx.createLinearGradient(renderX, renderY, renderX + CELL, renderY + CELL);
+        gradient.addColorStop(0, hero.color);
+        gradient.addColorStop(1, "rgba(0,0,0,0.25)");
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.roundRect(renderX + 2, renderY + 2, CELL - 4, CELL - 4, 8);
+        ctx.fill();
+
+        drawHeroFace(ctx, renderX, renderY, hero.direction);
         ctx.restore();
     }
 }
 
-// Main renderer
-export function drawGame({ ctx, curr, prev, alpha, step, screen, myUserId }: DrawGameParamsType) {
-    const snakes = curr.snakes;
-    const food = curr.food;
+export function drawGame({ ctx, curr, prev, alpha, screen, myUserId }: DrawGameParamsType) {
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = screen;
-    const WORLD_WIDTH = curr.gridWidth * CELL;
-    const WORLD_HEIGHT = curr.gridHeight * CELL;
-    const mySnake = snakes.find( (s) => String(s.userId) === String(myUserId)  );
+    const rows = curr.map.length;
+    const cols = curr.map[0]?.length ?? 0;
+    const WORLD_WIDTH = cols * CELL;
+    const WORLD_HEIGHT = rows * CELL;
 
-    if (!mySnake || mySnake.body.length === 0) {
-        ctx.clearRect( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
+    const myHero = curr.heroes.find((h) => String(h.userId) === String(myUserId));
+    if (!myHero) {
+        ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         return;
     }
-    const scale = Math.min( SCREEN_WIDTH / (WORLD_WIDTH + WORLD_MARGIN * 2), SCREEN_HEIGHT / (WORLD_HEIGHT + WORLD_MARGIN * 2));
-    ctx.clearRect( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
-    const background = ctx.createLinearGradient( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
-    background.addColorStop( 0, "#101417" );
-    background.addColorStop( 1, "#1c2226" );
+
+    const scale = Math.min(SCREEN_WIDTH / (WORLD_WIDTH + WORLD_MARGIN * 2), SCREEN_HEIGHT / (WORLD_HEIGHT + WORLD_MARGIN * 2));
+    ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    const background = ctx.createLinearGradient(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    background.addColorStop(0, "#101417");
+    background.addColorStop(1, "#1c2226");
     ctx.fillStyle = background;
-    ctx.fillRect( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT );
+    ctx.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
     ctx.save();
-    ctx.scale( scale, scale );
-    ctx.translate( WORLD_MARGIN, WORLD_MARGIN );
-    ctx.drawImage( getGridCanvas( WORLD_WIDTH, WORLD_HEIGHT ), 0, 0 );
-    drawSnake(ctx, snakes, prev, alpha, step);
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.font = `${CELL + 8}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", serif`;
-    helperForEach( food, ctx, WORLD_WIDTH, WORLD_HEIGHT, (CELL + 8) / 2);
+    ctx.scale(scale, scale);
+    ctx.translate(WORLD_MARGIN, WORLD_MARGIN);
+
+    ctx.fillStyle = "#1e2224";
+    ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+    drawWalls(ctx, curr.map);
+    drawBonuses(ctx, curr.bonuses);
+    drawBombs(ctx, curr.bombs, performance.now());
+    drawHeroes(ctx, curr.heroes, prev?.heroes, alpha);
+
     ctx.restore();
 }

@@ -35,7 +35,7 @@ export default async function RootLayout( { children } : Readonly< { children: R
             </SocketProvider>
             <RoomInviteToast />
             <Contact />
-            <Music musicName="snake_music_on"/>
+            <Music musicName="detonate_music_on"/>
             <Footer />
           </UserProvider>
       </body>

@@ -18,10 +18,10 @@ export function KeyboardControls({ socket, myUserId }: KeyboardControlsParamsTyp
             return state === 'OVER' || state === 'WIN' || state === 'END';
         };
 
-        const advanceSnake = (dir: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') => {
+        const advanceHero = (dir: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') => {
             const room = useGameCanvasStore.getState().currGame?.roomId ?? useArenaStore.getState().roomState?.roomId;
             if (!room || !socket) return;
-            socket.emit('change-direction', { direction: dir, roomId: room, userId: myUserId });
+            socket.send('ChangeDirection', { direction: dir, roomId: room, userId: myUserId });
         };
 
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -37,16 +37,16 @@ export function KeyboardControls({ socket, myUserId }: KeyboardControlsParamsTyp
 
             if (e.key === 'ArrowUp') {
                 setGameDir('UP');
-                advanceSnake('UP');
+                advanceHero('UP');
             } else if (e.key === 'ArrowDown') {
                 setGameDir('DOWN');
-                advanceSnake('DOWN');
+                advanceHero('DOWN');
             } else if (e.key === 'ArrowLeft') {
                 setGameDir('LEFT');
-                advanceSnake('LEFT');
+                advanceHero('LEFT');
             } else if (e.key === 'ArrowRight') {
                 setGameDir('RIGHT');
-                advanceSnake('RIGHT');
+                advanceHero('RIGHT');
             } else if (e.key === 'Escape') {
                 setGameDir(null);
                 useGameCanvasStore.getState().setInternalGameState('END');
