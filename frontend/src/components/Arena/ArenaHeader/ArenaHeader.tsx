@@ -1,5 +1,5 @@
 'use client'
-import { Trophy, Copy, Check}   from "lucide-react";
+import { Trophy, Copy, Check, Star}   from "lucide-react";
 import { Clock, Users }         from "lucide-react";
 import { useState }             from "react";
 import { useArenaStore }           from "@/src/components/Store/useArenaStore";
@@ -18,6 +18,7 @@ export default function ArenaHeader() {
         { icon: Clock, value: <Timer />, label: AR_LENG.time },
         { icon: Users, value: roomState?.players ?? 0, label: AR_LENG.players },
         { icon: Trophy, value: cntUser?.history?.totalScore || 0, label: AR_LENG.score },
+        { icon: Star, value: cntUser?.history?.level || 0, label: AR_LENG.level },
     ];
 
     const handleCopyRoomId = async () => {

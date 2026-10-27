@@ -32,6 +32,7 @@ export type UserType = {
         gamesLost: number;
         gamesWon: number;
         totalScore: number;
+        level: number;
     }
 } | null
 
@@ -43,6 +44,7 @@ export interface OnlineUsersType {
         gamesWon: number;
         gamesLost: number;
         totalScore: number;
+        level: number;
     }
 }
 

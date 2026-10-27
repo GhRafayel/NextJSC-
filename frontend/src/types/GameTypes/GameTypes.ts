@@ -8,6 +8,7 @@ export interface RoomStateType  {
 	roomId: string;
 	roomStatus: string;
 	map?: number[][];
+	playerList?: { userId: number; color: string }[];
 };
 
 export interface RoomCountdownType {
@@ -53,6 +54,7 @@ export interface MatchStateType {
 	heroes: HeroType[];
 	bombs: BombType[];
 	bonuses: BonusType[];
+	blasts?: PositionType[];
 	status: 'playing' | 'finished';
 	winnerId: number | null;
 	tick: number;

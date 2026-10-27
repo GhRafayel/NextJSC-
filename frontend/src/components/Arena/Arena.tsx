@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect }                        from "react";
+import * as signalR                         from "@microsoft/signalr";
 import { useAuth }                          from "@/src/components/Provider/UserProvider";
 import { useArenaStore, ArenaModeType }     from "@/src/components/Store/useArenaStore";
 import { useDifficultyStore }               from "@/src/components/Store/useDifficultyStore";
@@ -25,23 +26,44 @@ export default function Arena({ initialMode }: { initialMode: ArenaModeType }) {
         arena.resetArena();
         if (!socket) return;
 
-        socket.send("GetOnlineUsers");
-        if (mode === "AI")
-            socket.send("PlayAI", { level });
-        else {
-            const rematchRoomId = arena.rematchRoomId;
-            if (rematchRoomId) {
-                socket.send("Rematch", { roomId: rematchRoomId });
-                arena.setRematchRoomId(null);
-            } else {
-                const pendingRoomId = arena.pendingRoomId;
-                socket.send("JoinRoom", pendingRoomId ?? undefined);
-                if (pendingRoomId) arena.setPendingRoomId(null);
+        let cancelled = false;
+
+        const waitUntilConnected = () => new Promise<void>((resolve) => {
+            const check = () => {
+                if (cancelled || socket.state === signalR.HubConnectionState.Connected) {
+                    resolve();
+                    return;
+                }
+                setTimeout(check, 50);
+            };
+            check();
+        });
+
+        const run = async () => {
+            await waitUntilConnected();
+            if (cancelled) return;
+
+            socket.send("GetOnlineUsers");
+            if (mode === "AI")
+                socket.send("PlayAI", { level });
+            else {
+                const rematchRoomId = arena.rematchRoomId;
+                if (rematchRoomId) {
+                    socket.send("Rematch", { roomId: rematchRoomId });
+                    arena.setRematchRoomId(null);
+                } else {
+                    const pendingRoomId = arena.pendingRoomId;
+                    socket.send("JoinRoom", pendingRoomId ?? undefined);
+                    if (pendingRoomId) arena.setPendingRoomId(null);
+                }
             }
-        }
+        };
+
+        run();
 
         return () => {
-            if (!socket) return;
+            cancelled = true;
+            if (!socket || socket.state !== signalR.HubConnectionState.Connected) return;
             socket.send("LeaveRoom");
         };
     }, [mode, level, socket]);

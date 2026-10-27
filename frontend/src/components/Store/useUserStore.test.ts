@@ -7,7 +7,7 @@ function makeUser(overrides: Partial<OnlineUsersType> = {}): OnlineUsersType {
         id: 1,
         Username: "alice",
         role: "PLAYER",
-        history: { gamesWon: 0, gamesLost: 0, totalScore: 0 },
+        history: { gamesWon: 0, gamesLost: 0, totalScore: 0, level: 0 },
         ...overrides,
     };
 }

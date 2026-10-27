@@ -6,6 +6,7 @@ import { useArenaStore }    from "@/src/components/Store/useArenaStore";
 import { useAuth }          from "@/src/components/Provider/UserProvider";
 import { ArenaBoardType }   from "@/src/types/GameTypes/GameTypes";
 import MapCanvas            from "./MapCanvas";
+import GameCanvas            from "./GameCanvas";
 
 type RoomStatusType = keyof ArenaBoardType;
 
@@ -31,7 +32,7 @@ export default function GameBoard() {
 
     return (
         <div id="canvas-container" className="col-span-4 mx-auto aspect-square w-full max-w-[calc(100vh-250px)] max-h-[calc(100vh-250px)] flex flex-col items-center justify-start mt-2 relative" >
-            <MapCanvas />
+            {showCanvas ? <GameCanvas /> : <MapCanvas />}
             {!showCanvas && (
                 <div className={`absolute inset-0 flex flex-col items-center justify-center gap-3 w-full h-full bg-black/35 rounded-xl ${cntUser?.theme ?? true ? "text-green-400" : "text-blue-300"}`}>
                     <Loader className="w-15 h-15 animate-spin" />

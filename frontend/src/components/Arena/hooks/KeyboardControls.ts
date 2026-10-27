@@ -27,8 +27,14 @@ export function KeyboardControls({ socket, myUserId }: KeyboardControlsParamsTyp
 
         const sendDirection = (dir: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT' | null) => {
             const room = useGameCanvasStore.getState().currGame?.roomId ?? useArenaStore.getState().roomState?.roomId;
-            if (!room || !socket) return;
+            if (!room || !socket || socket.state !== signalR.HubConnectionState.Connected) return;
             socket.send('ChangeDirection', { direction: dir, roomId: room, userId: myUserId });
+        };
+
+        const placeBomb = () => {
+            const room = useGameCanvasStore.getState().currGame?.roomId ?? useArenaStore.getState().roomState?.roomId;
+            if (!room || !socket || socket.state !== signalR.HubConnectionState.Connected) return;
+            socket.send('PlaceBomb', room);
         };
 
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -44,8 +50,15 @@ export function KeyboardControls({ socket, myUserId }: KeyboardControlsParamsTyp
 
             const dir = KEY_TO_DIR[e.key];
             if (dir) {
+                // ignore OS auto-repeat — only a genuine fresh keydown should reach the
+                // server, since the backend now fast-tracks every ChangeDirection call to
+                // react on the very next tick; letting a held key's auto-repeat through too
+                // would let holding the key bypass the movement speed cap entirely
+                if (e.repeat) return;
                 setGameDir(dir);
                 sendDirection(dir);
+            } else if (e.key === ' ') {
+                if (!e.repeat) placeBomb();
             } else if (e.key === 'Escape') {
                 setGameDir(null);
                 useGameCanvasStore.getState().setInternalGameState('END');

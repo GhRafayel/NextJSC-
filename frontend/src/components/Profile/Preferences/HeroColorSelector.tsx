@@ -1,11 +1,19 @@
 'use client';
 import { Palette } from 'lucide-react';
+import Image from 'next/image';
 import { useAuth } from '@/src/components/Provider/UserProvider';
 
-
 const HERO_COLORS = [
-    '#22c55e', '#22d3ee', '#d946ef', '#f97316', '#fbbf24', '#ef4444', '#a3e635', '#f472b6'
-]
+    { color: '#22c55e', avatar: 'hero-green.svg' },
+    { color: '#22d3ee', avatar: 'hero-cyan.svg' },
+    { color: '#d946ef', avatar: 'hero-magenta.svg' },
+    { color: '#f97316', avatar: 'hero-orange.svg' },
+    { color: '#fbbf24', avatar: 'hero-yellow.svg' },
+    { color: '#ef4444', avatar: 'hero-red.svg' },
+    { color: '#a3e635', avatar: 'hero-lime.svg' },
+    { color: '#f472b6', avatar: 'hero-pink.svg' },
+];
+
 export default function HeroColorSelector() {
   const { cntUser, LENUAGE, ChangingCallback } = useAuth();
   const PF_LENG = LENUAGE.Profile.settings;
@@ -17,14 +25,14 @@ export default function HeroColorSelector() {
           {PF_LENG.heroColor}
         </div>
         <div className="pf-val">
-            <div className="pf-swatchGroup">
-              {HERO_COLORS.map((color) => (
-
+            <div className="pf-swatchGroup ">
+              {HERO_COLORS.map(({ color, avatar }) => (
                 <button key={color} type="button" aria-label={color}
                   className={`pf-swatch ${cntUser?.color === color ? 'pf-swatchActive' : ''}`}
-                  style={{ backgroundColor: color }}
                   onClick={async () => ChangingCallback({color}, "change-color")}
-                />
+                >
+                  <Image src={`/avatar/${avatar}`} alt="" width={28} height={28} className="h-full w-full object-cover" />
+                </button>
               ))}
             </div>
         </div>

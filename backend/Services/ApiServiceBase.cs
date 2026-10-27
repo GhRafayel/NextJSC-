@@ -79,7 +79,7 @@ public abstract class ApiServiceBase(AppDbContext db,  TokenService tokens)
         {
             Email = info.Email,
             Username = info.Name ?? info.Email.Split('@')[0],
-            Avatar =  "default.png",
+            Avatar =  "hero-gray.svg",
             Provider = info.Provider,
             ProviderId = info.ProviderUserId,
         };

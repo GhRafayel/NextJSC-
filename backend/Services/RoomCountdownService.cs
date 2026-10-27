@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 
 namespace Backend.Services;
 
-public class RoomCountdownService(IHubContext<GameHub> hub)
+public class RoomCountdownService(IHubContext<GameHub> hub, ILogger<RoomCountdownService> logger)
 {
     private readonly ConcurrentDictionary<string, CancellationTokenSource> _timers = new();
 
@@ -29,6 +29,10 @@ public class RoomCountdownService(IHubContext<GameHub> hub)
             }
             catch (TaskCanceledException)
             {}
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "RoomCountdownService.onExpire failed for room {RoomId}", roomId);
+            }
         });
     }
 

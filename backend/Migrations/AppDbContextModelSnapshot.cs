@@ -146,6 +146,12 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("GamesLost")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GamesWon")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("text");

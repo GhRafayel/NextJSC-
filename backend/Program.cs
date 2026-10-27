@@ -6,6 +6,7 @@ using Backend.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.FileProviders;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -77,7 +78,7 @@ builder.Services.AddSingleton<RoomCountdownService>();
 builder.Services.AddSingleton<GameLoopService>();
 
 builder.Services.AddHttpClient();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options => options.EnableDetailedErrors = builder.Environment.IsDevelopment());
 builder.Services.AddDbContext<AppDbContext> ( 
     option => option.UseNpgsql(builder.Configuration.GetConnectionString("Default"))
 );
@@ -94,7 +95,15 @@ if (app.Environment.IsDevelopment()) {
     app.MapOpenApi();
 }
 
+string avatarUploadsPath = Path.Combine(builder.Environment.ContentRootPath, "UploadedAvatars");
+Directory.CreateDirectory(avatarUploadsPath);
+
 app.UseCors("frontend");
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(avatarUploadsPath),
+    RequestPath = "/uploads/avatars",
+});
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

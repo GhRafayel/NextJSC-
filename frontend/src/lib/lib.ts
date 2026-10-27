@@ -182,6 +182,7 @@ export const language : TranslationType = {
                 "time" : "Time",
                 "players" : "Players",
                 "score" : "Your Score",
+                "level" : "Level",
                 "difficulty" : "Difficulty",
                 "copy" : "Copy room ID",
                 "copied" : "Copied",

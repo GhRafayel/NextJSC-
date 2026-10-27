@@ -1,6 +1,10 @@
 import { create } from 'zustand';
-import { MatchStateType, GameStateType } from "@/src/types/GameTypes/GameTypes";
+import { MatchStateType, GameStateType, PositionType } from "@/src/types/GameTypes/GameTypes";
 import { DEFAULT_STEP } from '@/src/components/Arena/utils/drawGame';
+
+export interface ActiveBlastType extends PositionType {
+    expiresAt: number;
+}
 
 interface GameCanvasStoreType {
     prevGame: MatchStateType | null;
@@ -11,6 +15,7 @@ interface GameCanvasStoreType {
     stepSeconds: number;
     screen: { width: number; height: number };
     internalGameState: GameStateType;
+    activeBlasts: ActiveBlastType[];
 
     setGames: (curr: MatchStateType) => void;
     setStateTime: (time: number) => void;
@@ -19,6 +24,7 @@ interface GameCanvasStoreType {
     setStepSeconds: (seconds: number) => void;
     setScreen: (screen: { width: number; height: number }) => void;
     setInternalGameState: (state: GameStateType) => void;
+    addBlasts: (cells: PositionType[], durationMs: number) => void;
     resetGameCanvas: () => void;
 }
 
@@ -31,6 +37,7 @@ export const useGameCanvasStore = create<GameCanvasStoreType>((set) => ({
     stepSeconds: DEFAULT_STEP,
     screen: { width: 0, height: 0 },
     internalGameState: 'START',
+    activeBlasts: [],
 
     setGames: (curr) => set((state) => ({ prevGame: state.currGame, currGame: curr })),
     setStateTime: (time) => set({ stateTime: time }),
@@ -39,6 +46,13 @@ export const useGameCanvasStore = create<GameCanvasStoreType>((set) => ({
     setStepSeconds: (seconds) => set({ stepSeconds: seconds }),
     setScreen: (screen) => set({ screen }),
     setInternalGameState: (state) => set({ internalGameState: state }),
+    addBlasts: (cells, durationMs) =>
+        set((state) => {
+            const now = Date.now();
+            const expiresAt = now + durationMs;
+            const kept = state.activeBlasts.filter((b) => b.expiresAt > now);
+            return { activeBlasts: [...kept, ...cells.map((c) => ({ ...c, expiresAt }))] };
+        }),
 
     resetGameCanvas: () =>
         set({
@@ -50,5 +64,6 @@ export const useGameCanvasStore = create<GameCanvasStoreType>((set) => ({
             stepSeconds: DEFAULT_STEP,
             screen: { width: 0, height: 0 },
             internalGameState: 'START',
+            activeBlasts: [],
         }),
 }));

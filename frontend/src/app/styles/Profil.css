@@ -45,6 +45,14 @@
   @apply truncate text-xl font-semibold tracking-tight text-(--color-text-primary);
 }
 
+.pf-headerNameRow {
+  @apply flex min-w-0 items-center gap-2;
+}
+
+.pf-headerNameInput {
+  @apply min-w-0 flex-1 text-xl font-semibold tracking-tight;
+}
+
 .pf-roleBadge {
   @apply inline-flex w-fit items-center gap-1 rounded-full bg-(--color-accent-soft) px-2.5 py-1 text-[10px] font-bold tracking-wide text-(--color-accent) uppercase;
 }
@@ -255,42 +263,38 @@
   @apply flex items-center gap-1.5 text-xs font-medium text-(--color-danger);
 }
 
-/* snake color swatches */
+/* hero color swatches */
 .pf-swatchGroup {
   @apply flex flex-wrap gap-2;
 }
 
 .pf-swatch {
-  @apply h-7 w-7 shrink-0 cursor-grab rounded-full border-2 border-transparent transition-transform;
-}
-
-.pf-swatch:hover {
-  transform: scale(1.12);
+  @apply h-11 w-11 shrink-0 cursor-grab overflow-hidden rounded-full border-b-2 border-transparent bg-transparent p-0;
 }
 
 .pf-swatchActive {
-  @apply border-(--color-text-primary) shadow-[0_0_0_2px_var(--color-background-secondary)];
-}
-
-/* avatar picker grid */
-.pf-avatarGrid {
-  @apply flex flex-wrap gap-2;
-}
-
-.pf-avatarOption {
-  @apply h-11 w-11 shrink-0 cursor-grab overflow-hidden rounded-full border-2 border-transparent p-0 transition-transform;
-}
-
-.pf-avatarOption:hover {
-  transform: scale(1.08);
-}
-
-.pf-avatarOptionActive {
   @apply border-(--color-accent);
 }
 
-.pf-avatarOptionImg {
+/* avatar upload */
+.pf-avatarUpload {
+  @apply relative inline-flex;
+}
+
+.pf-avatarUploadPreview {
+  @apply relative h-16 w-16 shrink-0 overflow-hidden rounded-full;
+}
+
+.pf-avatarUploadImg {
   @apply h-full w-full object-cover;
+}
+
+.pf-avatarUploadBtn {
+  @apply absolute right-0 bottom-0 flex h-6 w-6 items-center justify-center rounded-full border-2 border-(--color-background-secondary) bg-(--color-accent) text-white shadow-sm transition-transform hover:scale-110 disabled:opacity-60;
+}
+
+.pf-avatarUploadError {
+  @apply absolute top-full left-0 mt-1 text-xs whitespace-nowrap text-red-500;
 }
 /* reset code style  */
 

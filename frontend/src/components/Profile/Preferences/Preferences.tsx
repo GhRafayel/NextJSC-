@@ -1,7 +1,6 @@
-import { Globe, Music2, Sun, Moon, Image as ImageIcon } from 'lucide-react';
+import { Globe, Music2, Sun, Moon } from 'lucide-react';
 import { useAuth } from "@/src/components/Provider/UserProvider";
 import LanguageSelector from './LanguageSelector';
-import AvatarSelector from './AvatarSelector';
 import ThemeToggle from './ThemeToggle';
 import VolumeControl from '../../Music/VolumeControl';
 import HeroColorSelector from './HeroColorSelector';
@@ -38,17 +37,6 @@ export default function Preferences () {
                 <VolumeControl musicName='detonate_music_on'/>
             </div>
 
-            <div className="pf-row pf-rowStack">
-                <div className="pf-lbl">
-                    <span className="pf-iconWrap">
-                        <ImageIcon size={16} />
-                    </span>
-                    {PF_LENG.settings.avatar}
-                </div>
-                <div className="pf-val">
-                    <AvatarSelector />
-                </div>
-            </div>
             <HeroColorSelector />
         </div>
     )

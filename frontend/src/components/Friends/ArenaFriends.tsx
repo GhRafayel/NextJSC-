@@ -45,10 +45,10 @@ export default function ArenaFriends () {
                                     <div key={i} className={`flex items-center gap-2 rounded-lg px-3 py-1.5 ${cntUser?.theme ?? true ? "bg-white/5" : "bg-black/5"}`} >
                                         <Trophy className={`h-3.5 w-3.5 shrink-0 ${cntUser?.theme ?? true ? "text-gray-500" : "text-gray-400"}`} />
                                         <span className={`text-xs sm:text-sm font-semibold tabular-nums ${cntUser?.theme ?? true ? "text-gray-100" : "text-gray-900"}`}>
-                                            {LENUAGE.History.pts}
+                                            {item.score}
                                         </span>
                                         <span className={`text-[10px] sm:text-[11px] ${cntUser?.theme ?? true ? "text-gray-500" : "text-gray-500"}`}>
-                                           {item.score}
+                                           {LENUAGE.History.pts}
                                         </span>
                                     </div>
                                 </div>

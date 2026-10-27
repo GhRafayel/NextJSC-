@@ -41,6 +41,16 @@ public class UserService(AppDbContext db, TokenService token) : ApiServiceBase(d
     {
         return  await Update(userId, user => user.Theme = theme);
     }
+
+    public async Task<User?> ApplyMatchResult(int userId, bool won)
+    {
+        return await Update(userId, user =>
+        {
+            user.Score += won ? 30 : 5;
+            if (won) user.GamesWon++;
+            else user.GamesLost++;
+        });
+    }
  
     public async Task<Translations?> GetTranslations (string key )
     {

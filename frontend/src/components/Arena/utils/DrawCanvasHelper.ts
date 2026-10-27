@@ -45,14 +45,39 @@ export function getGridCanvasDoublLoop (gctx: CanvasRenderingContext2D, worldWid
     }
 }
 
+const BRICK_SHADES = ["#c2703f", "#b8632f", "#c97a44", "#a85a2d"];
+
+function brickShade(seed: number) {
+    return BRICK_SHADES[((seed % BRICK_SHADES.length) + BRICK_SHADES.length) % BRICK_SHADES.length];
+}
+
+function drawBrickWall(ctx: CanvasRenderingContext2D, x: number, y: number, row: number, col: number) {
+    const half = CELL / 2;
+
+    ctx.fillStyle = "#e8cbb0";
+    ctx.fillRect(x, y, CELL, CELL);
+
+    const seed = row * 7 + col * 3;
+    ctx.fillStyle = brickShade(seed);
+    ctx.fillRect(x + 1, y + 1, half - 2, half - 2);
+    ctx.fillStyle = brickShade(seed + 1);
+    ctx.fillRect(x + half + 1, y + 1, half - 2, half - 2);
+    ctx.fillStyle = brickShade(seed + 2);
+    ctx.fillRect(x + 1, y + half + 1, CELL - 2, half - 2);
+}
+
 export function drawWalls(ctx: CanvasRenderingContext2D, map: number[][]) {
     for (let row = 0; row < map.length; row++) {
         for (let col = 0; col < map[row].length; col++) {
-            if (map[row][col] !== 1) continue;
-            ctx.fillStyle = "#4a4a4a";
-            ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
-            ctx.fillStyle = "rgba(255,255,255,0.06)";
-            ctx.fillRect(col * CELL, row * CELL, CELL, 2);
+            const cell = map[row][col];
+            if (cell === 1) {
+                ctx.fillStyle = "#4a4a4a";
+                ctx.fillRect(col * CELL, row * CELL, CELL, CELL);
+                ctx.fillStyle = "rgba(255,255,255,0.06)";
+                ctx.fillRect(col * CELL, row * CELL, CELL, 2);
+            } else if (cell === 2) {
+                drawBrickWall(ctx, col * CELL, row * CELL, row, col);
+            }
         }
     }
 }

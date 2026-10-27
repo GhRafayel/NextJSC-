@@ -1,11 +1,12 @@
 import { HeroType, DrawGameParamsType } from "@/src/types/GameTypes/GameTypes";
-import { drawHeroFace, drawBombs, drawBonuses } from "./DrawGameHelper";
+import { drawHeroFace, drawBombs, drawBonuses, drawBlasts } from "./DrawGameHelper";
 import { drawWalls } from "./DrawCanvasHelper";
 import { lerp } from "./canvas";
+import { useGameCanvasStore } from "@/src/components/Store/useGameCanvasStore";
 
 export const DEFAULT_STEP = 150 / 1000;
 export const CELL = 32;
-export const HERO_SCALE = 1.15;
+export const HERO_SCALE = 0.85;
 export const WORLD_MARGIN = CELL / 2;
 
 function drawHeroes(ctx: CanvasRenderingContext2D, heroes: HeroType[], prev: HeroType[] | undefined, alpha: number) {
@@ -62,9 +63,10 @@ export function drawGame({ ctx, curr, prev, alpha, screen, myUserId }: DrawGameP
     ctx.fillStyle = "#1e2224";
     ctx.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
     drawWalls(ctx, curr.map);
-    drawBonuses(ctx, curr.bonuses);
+    drawBonuses(ctx, curr.bonuses, performance.now());
     drawBombs(ctx, curr.bombs, performance.now());
     drawHeroes(ctx, curr.heroes, prev?.heroes, alpha);
+    drawBlasts(ctx, useGameCanvasStore.getState().activeBlasts, Date.now());
 
     ctx.restore();
 }

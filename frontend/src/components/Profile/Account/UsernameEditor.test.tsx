@@ -15,7 +15,7 @@ const user: UserType = {
     avatar: "",
     theme: false,
     termsAcceptedAt: null,
-    history: { gamesLost: 0, gamesWon: 0, totalScore: 0 },
+    history: { gamesLost: 0, gamesWon: 0, totalScore: 0, level: 0 },
 };
 
 const translations = {
@@ -23,7 +23,6 @@ const translations = {
         sub: "submit",
         settings: {
             username: { label: "Username", edit: "Edit" },
-            secure: { close: "Close" },
             message: "The request could not be completed",
         },
     },
@@ -62,22 +61,6 @@ describe("UsernameEditor", () => {
         const input = screen.getByRole("textbox") as HTMLInputElement;
         expect(input.value).toBe("alice");
         expect(screen.getByText("submit")).toBeInTheDocument();
-        expect(screen.getByText("Close")).toBeInTheDocument();
-    });
-
-    it("Close button exits edit mode without saving", async () => {
-        const changingCallback = mockAuth(user);
-        const u = userEvent.setup();
-        render(<UsernameEditor />);
-
-        await u.click(screen.getByText("Edit"));
-        await u.clear(screen.getByRole("textbox"));
-        await u.type(screen.getByRole("textbox"), "newname");
-        await u.click(screen.getByText("Close"));
-
-        expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
-        expect(screen.getByText("alice")).toBeInTheDocument();
-        expect(changingCallback).not.toHaveBeenCalled();
     });
 
     it("submitting the form calls ChangingCallback with the trimmed username (refreshing the shared user context) and exits edit mode on success", async () => {

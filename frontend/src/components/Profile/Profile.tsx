@@ -1,13 +1,14 @@
 'use client';
 import { useAuth } from '@/src/components/Provider/UserProvider';
 import { useState } from 'react';
-import Image from 'next/image';
 
 import Friends from '@/src/components/Friends/Friends';
 import Account from './Account/Account';
 import Secure from './Secure/Secure';
 import Preferences from './Preferences/Preferences';
 import ProfilHeader from './ProfilHeaders';
+import AvatarUpload from './Preferences/AvatarUpload';
+import UsernameEditor from './Account/UsernameEditor';
 
 export default function Profile() {
 
@@ -22,10 +23,9 @@ export default function Profile() {
         <div className="pf-main">
 
           <div className="pf-header">
-            <Image src={`/avatar/${cntUser?.avatar || 'default.svg'}`} alt={cntUser?.Username || 'Avatar'} width={64} height={64} className="pf-avatarLg object-cover"
-            />
+            <AvatarUpload />
             <div className="pf-headerInfo">
-              <h2 className="pf-headerName">{cntUser?.Username || '—'}</h2>
+              <UsernameEditor />
               {cntUser?.role && (
                 <span className="pf-roleBadge">{cntUser.role}</span>
               )}

@@ -4,6 +4,8 @@ public class User : ITimestamped
 {
     public int Id { get; set; }
     public int Score { get; set; } = 0;
+    public int GamesWon { get; set; } = 0;
+    public int GamesLost { get; set; } = 0;
     public int ResetCodeAttempts { get; set; } = 0;
     public string   Email {get; set;} = "";
     public string   Username {get; set;} = "";
@@ -13,7 +15,7 @@ public class User : ITimestamped
     public string?  ProviderId {get; set;}
     public string?  Color {get; set;}
     public string   Language {get; set;} = "en";
-    public string   Avatar {get; set;} = "default.png";
+    public string   Avatar {get; set;} = "hero-gray.svg";
     public string?  ResetCode {get; set;}
     public Role     Role {get; set;} = Role.PLAYER;
 

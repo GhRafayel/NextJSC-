@@ -93,6 +93,7 @@ export interface TranslationType {
 				time: string;
 				players: string;
 				score: string;
+				level: string;
 				difficulty: string;
 				copy: string;
 				copied: string;

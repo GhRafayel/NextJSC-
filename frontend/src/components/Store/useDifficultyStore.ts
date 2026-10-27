@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export const MIN_BOT_LEVEL = 1;
-export const MAX_BOT_LEVEL = 3;
+export const MAX_BOT_LEVEL = 4;
 
 interface DifficultyStoreType {
     level: number;

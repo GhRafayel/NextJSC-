@@ -10,8 +10,52 @@ namespace Backend.Controllers;
 [Route("api/[controller]")]
 [Authorize]
 
-public class UsersController(UserService _users) : ApiControllerBase()
+public class UsersController(UserService _users, IWebHostEnvironment env) : ApiControllerBase()
 {
+    private static readonly HashSet<string> AllowedAvatarExtensions = [".png", ".jpg", ".jpeg", ".gif", ".webp"];
+    private const long MaxAvatarBytes = 8 * 1024 * 1024;
+
+    [HttpPost("avatar-upload")]
+    public async Task<IActionResult> UploadAvatar(IFormFile file)
+    {
+        int? id = GetAuthenticatedUserId();
+        if (id is null)
+            return Unauthorized();
+
+        if (file is null || file.Length == 0)
+            return BadRequest(new { error = "No file uploaded" });
+        if (file.Length > MaxAvatarBytes)
+            return BadRequest(new { error = "File too large" });
+
+        string ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+        if (!AllowedAvatarExtensions.Contains(ext))
+            return BadRequest(new { error = "Unsupported file type" });
+
+        User? user = await _users.GetUserById(id.Value);
+        if (user is null)
+            return NotFound();
+
+        string uploadsDir = Path.Combine(env.ContentRootPath, "UploadedAvatars");
+        Directory.CreateDirectory(uploadsDir);
+
+        if (user.Avatar.StartsWith("uploads/avatars/"))
+        {
+            string oldPath = Path.Combine(uploadsDir, Path.GetFileName(user.Avatar));
+            if (System.IO.File.Exists(oldPath))
+                System.IO.File.Delete(oldPath);
+        }
+
+        string fileName = $"{Guid.NewGuid()}{ext}";
+        string fullPath = Path.Combine(uploadsDir, fileName);
+        using (FileStream stream = new(fullPath, FileMode.Create))
+            await file.CopyToAsync(stream);
+
+        string relativeAvatar = $"uploads/avatars/{fileName}";
+        await _users.ChangeAvatar(id.Value, relativeAvatar);
+
+        return Ok(new { avatar = relativeAvatar });
+    }
+
     [HttpGet("me")]
     public async Task<IActionResult> Me()
     {

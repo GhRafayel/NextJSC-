@@ -4,7 +4,6 @@ import { useState } from "react";
 import { LogOut, Trash2 } from "lucide-react";
 import { useAuth } from '@/src/components/Provider/UserProvider';
 import { useRouter } from "next/navigation";
-import UsernameEditor from './UsernameEditor';
 
 type WindowStateType = { request: boolean, prefsOpen: boolean, secureOpen: boolean, accountOpen: boolean };
 type propsType = {
@@ -21,8 +20,6 @@ export default function Account ({ setWindow, window } : propsType) {
     
     return (
         <div className="pf-rows">
-            <UsernameEditor />
-            
             <div className="pf-row">
                 <div className="pf-lbl">
                     <span className="pf-iconWrap"><LogOut size={16} /></span>
